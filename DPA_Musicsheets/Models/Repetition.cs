@@ -8,8 +8,8 @@ namespace DPA_Musicsheets.Models
 {
     class Repetition
     {
-        public Note Start { get; set; }
-        public Note End { get; set; }
-        public Note Alternative { get; set; }
+        public MusicNote Start { get; set; }
+        public MusicNote End { get; set; }
+        public MusicNote Alternative { get; set; }
     }
 }
