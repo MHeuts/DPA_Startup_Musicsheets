@@ -111,6 +111,7 @@
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\Repetition.cs" />
     <Compile Include="Models\Song.cs" />
+    <Compile Include="Models\ToneEnum.cs" />
     <Compile Include="ViewModels\MidiPlayerViewModel.cs" />
     <Compile Include="ViewModels\StaffsViewModel.cs" />
     <Compile Include="Views\MidiPlayerCtrl.xaml.cs">
