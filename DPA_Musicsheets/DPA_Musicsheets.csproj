@@ -106,12 +106,14 @@
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Models\Bar.cs" />
+    <Compile Include="Models\BarBuilder.cs" />
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />
     <Compile Include="Models\Note.cs" />
     <Compile Include="Models\Repetition.cs" />
     <Compile Include="Models\Song.cs" />
     <Compile Include="Models\ToneEnum.cs" />
+    <Compile Include="Models\SongBuilder.cs" />
     <Compile Include="ViewModels\MidiPlayerViewModel.cs" />
     <Compile Include="ViewModels\StaffsViewModel.cs" />
     <Compile Include="Views\MidiPlayerCtrl.xaml.cs">
