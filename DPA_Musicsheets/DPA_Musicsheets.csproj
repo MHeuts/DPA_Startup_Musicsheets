@@ -109,7 +109,7 @@
     <Compile Include="Models\BarBuilder.cs" />
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />
-    <Compile Include="Models\Note.cs" />
+    <Compile Include="Models\MusicNote.cs" />
     <Compile Include="Models\Repetition.cs" />
     <Compile Include="Models\Song.cs" />
     <Compile Include="Models\ToneEnum.cs" />

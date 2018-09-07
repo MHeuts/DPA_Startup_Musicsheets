@@ -20,7 +20,7 @@ namespace DPA_Musicsheets.Models
             _bar.MusicNotes.Add(note);
         }
 
-        public void AddNote(char tone, int duration, bool dot, int octave, char modifier)
+        public void AddNote(ToneEnum tone, int duration, bool dot, int octave, char modifier)
         {
             _bar.MusicNotes.Add(new MusicNote {
                 Tone = tone,

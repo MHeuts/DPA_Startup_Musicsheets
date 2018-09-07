@@ -8,7 +8,7 @@ namespace DPA_Musicsheets.Models
 {
     class MusicNote
     {
-        public Char Tone { get; set; }
+        public ToneEnum Tone { get; set; }
         public int Octave { get; set; }
         public Char Modifier { get; set; }
         public int Duration { get; set; }
