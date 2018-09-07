@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    class Song
+    public class Song
     {
         public List<Bar> Bars { get; set; }
         public List<Repetition> Repetitions { get; set; }

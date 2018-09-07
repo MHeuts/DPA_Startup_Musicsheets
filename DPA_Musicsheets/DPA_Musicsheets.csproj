@@ -103,6 +103,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="IO\IMusicFileParser.cs" />
+    <Compile Include="IO\LilypondFileParser.cs" />
+    <Compile Include="IO\MidiFileParser.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Models\Bar.cs" />

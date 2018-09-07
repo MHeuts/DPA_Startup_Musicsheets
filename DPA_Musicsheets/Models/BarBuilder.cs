@@ -6,18 +6,36 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    class BarBuilder
+    public class BarBuilder
     {
         private Bar _bar;
+        private Tuple<int, int> _rhythm;
+        private int _tempo;
 
         public BarBuilder()
         {
-            _bar = new Bar();
+            _bar = new Bar {
+                Rhythm = _rhythm,
+                Bpm = _tempo
+            };
         }
 
         public void AddNote(MusicNote note)
         {
             _bar.MusicNotes.Add(note);
+        }
+
+        public void SetRhythm(Tuple<int, int> rhythm)
+        {
+            _rhythm = rhythm;
+            _bar.Rhythm = rhythm;
+        }
+
+
+        public void SetTempo(int tempo)
+        {
+            _tempo = tempo;
+            _bar.Bpm = tempo;
         }
 
         public void AddNote(ToneEnum tone, int duration, bool dot, int octave, char modifier)

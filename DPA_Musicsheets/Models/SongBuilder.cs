@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    class SongBuilder
+    public class SongBuilder
     {
         private Song _song;
 
