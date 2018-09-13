@@ -10,7 +10,7 @@ namespace DPA_Musicsheets.IO
     public interface IMusicFileParser
     {
 
-        Song parseFile(string filename);
+        Song parseFile(string fileName);
 
     }
 }

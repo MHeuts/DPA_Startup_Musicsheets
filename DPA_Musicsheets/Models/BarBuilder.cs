@@ -38,7 +38,7 @@ namespace DPA_Musicsheets.Models
             _bar.Bpm = tempo;
         }
 
-        public void AddNote(ToneEnum tone, int duration, bool dot, int octave, char modifier)
+        public void AddNote(ToneEnum tone, double duration, bool dot, int octave, char modifier)
         {
             _bar.MusicNotes.Add(new MusicNote {
                 Tone = tone,
@@ -47,6 +47,13 @@ namespace DPA_Musicsheets.Models
                 Modifier = modifier,
                 Octave = octave
             });
+        }
+
+        public Bar Build()
+        {
+            var copy = _bar;
+            _bar = new Bar();
+            return copy;
         }
     }
 }

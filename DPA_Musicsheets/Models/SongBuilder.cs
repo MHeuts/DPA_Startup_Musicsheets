@@ -10,7 +10,7 @@ namespace DPA_Musicsheets.Models
     {
         private Song _song;
 
-        SongBuilder()
+        public SongBuilder()
         {
             _song = new Song();
         }
@@ -24,7 +24,7 @@ namespace DPA_Musicsheets.Models
             _song.Repetitions.Add(repetition);
         }
 
-        public Song build()
+        public Song Build()
         {
             var ret = _song;
             _song = new Song();
