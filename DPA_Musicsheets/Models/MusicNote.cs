@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    class MusicNote
+    public class MusicNote
     {
         public ToneEnum Tone { get; set; }
         public int Octave { get; set; }
