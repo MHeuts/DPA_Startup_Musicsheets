@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\StaffConverter.cs" />
     <Compile Include="IO\IMusicFileParser.cs" />
     <Compile Include="IO\LilypondFileParser.cs" />
     <Compile Include="IO\MidiFileParser.cs" />
@@ -237,6 +238,7 @@
     <Content Include="Files\Eenvoudige voorbeeldfiles\Rusten.ly" />
     <Content Include="Files\Eenvoudige voorbeeldfiles\Standaard_noten.ly" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
