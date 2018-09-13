@@ -113,6 +113,8 @@
     <Compile Include="Models\LilypondToken.cs" />
     <Compile Include="Models\LilypondTokenKind.cs" />
     <Compile Include="Models\MusicNote.cs" />
+    <Compile Include="Models\NoteFactory.cs" />
+    <Compile Include="Models\NoteModifier.cs" />
     <Compile Include="Models\Repetition.cs" />
     <Compile Include="Models\Song.cs" />
     <Compile Include="Models\ToneEnum.cs" />

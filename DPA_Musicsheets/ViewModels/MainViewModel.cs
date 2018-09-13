@@ -1,4 +1,5 @@
-﻿using DPA_Musicsheets.Managers;
+﻿using DPA_Musicsheets.IO;
+using DPA_Musicsheets.Managers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
@@ -42,11 +43,13 @@ namespace DPA_Musicsheets.ViewModels
         }
 
         private MusicLoader _musicLoader;
+        private MidiFileParser _midiFileParser;
 
-        public MainViewModel(MusicLoader musicLoader)
+        public MainViewModel(MusicLoader musicLoader, MidiFileParser midiFileParser)
         {
             // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer?
             _musicLoader = musicLoader;
+            _midiFileParser = midiFileParser;
             FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
         }
 
@@ -62,6 +65,7 @@ namespace DPA_Musicsheets.ViewModels
         public ICommand LoadCommand => new RelayCommand(() =>
         {
             _musicLoader.OpenFile(FileName);
+            var song =_midiFileParser.parseFile(FileName);
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys

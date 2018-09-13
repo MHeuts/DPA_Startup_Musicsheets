@@ -6,15 +6,10 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    public enum Tone
+    public enum Modifier
     {
-        C,
-        D,
-        E,
-        F,
-        G,
-        A,
-        B,
-        Silent
+        None = 0,
+        Sharp = 1,
+        Flat = -1
     }
 }

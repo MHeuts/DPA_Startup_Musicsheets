@@ -17,6 +17,7 @@ namespace DPA_Musicsheets.IO
 
             SongBuilder sb = new SongBuilder();
             BarBuilder bb = new BarBuilder();
+            NoteFactory nf = new NoteFactory();
 
             StringBuilder lilypondContent = new StringBuilder();
             lilypondContent.AppendLine("\\relative c' {");
@@ -95,9 +96,11 @@ namespace DPA_Musicsheets.IO
                                     previousNoteAbsoluteTicks = midiEvent.AbsoluteTicks;
 
                                     //TODO: Notelength
-                                    var toneInfo = GetTone(previousMidiKey);
                                     var noteLength = GetNoteLength(previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, division, beatNote, beatsPerBar, out hasDot, out percentageOfBar);
-                                    bb.AddNote(toneInfo.Item1, noteLength, hasDot, toneInfo.Item2, toneInfo.Item3);
+                                    MusicNote note = nf.create(previousMidiKey);
+                                    note.Duration = noteLength;
+                                    note.Dot = hasDot;
+                                    bb.AddNote(note);
                                     
                                     percentageOfBarReached += percentageOfBar;
                                     if (percentageOfBarReached >= 1)
@@ -117,7 +120,7 @@ namespace DPA_Musicsheets.IO
                 }
             }
 
-            return sb.build();
+            return sb.Build();
 
         }
 
@@ -146,61 +149,6 @@ namespace DPA_Musicsheets.IO
             percentageOfBeatNote = percentageOfBeatNote / 4;
 
             return percentageOfBeatNote;
-        }
-
-        private Tuple<ToneEnum, int, char> GetTone(int midiKey)
-        {
-            var octave = 0;
-            char modifier = '0';
-            ToneEnum tone = ToneEnum.C;
-
-            var val = new Tuple<ToneEnum, int, char>(ToneEnum.A, (midiKey / 12) - 1, '0');
-            switch (midiKey % 12)
-            {
-                case 0:
-                    tone = ToneEnum.C;
-                    break;
-                case 1:
-                    tone = ToneEnum.C;
-                    modifier = '#';
-                    break;
-                case 2:
-                    tone = ToneEnum.D;
-                    break;
-                case 3:
-                    tone = ToneEnum.D;
-                    modifier = '#';
-                    break;
-                case 4:
-                    tone = ToneEnum.E;
-                    break;
-                case 5:
-                    tone = ToneEnum.F;
-                    break;
-                case 6:
-                    tone = ToneEnum.F;
-                    modifier = '#';
-                    break;
-                case 7:
-                    tone = ToneEnum.G;
-                    break;
-                case 8:
-                    tone = ToneEnum.G;
-                    modifier = '#';
-                    break;
-                case 9:
-                    tone = ToneEnum.A;
-                    break;
-                case 10:
-                    tone = ToneEnum.A;
-                    modifier = '#';
-                    break;
-                case 11:
-                    tone = ToneEnum.B;
-                    break;
-            }
-
-            return new Tuple<ToneEnum, int, char>(tone, octave, modifier);
         }
     }
 }
