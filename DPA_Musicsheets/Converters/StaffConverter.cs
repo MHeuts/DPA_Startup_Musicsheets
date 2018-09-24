@@ -14,12 +14,20 @@ namespace DPA_Musicsheets.Converters
     {
         public List<MusicalSymbol> Convert(Song song)
         {
+            return (List<MusicalSymbol>)Convert(song, typeof(List<MusicalSymbol>), null, null);
+        }
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            var Song = value as Song;
+            if (Song == null) return null;
+            
             var musicalSymbols = new List<MusicalSymbol>();
 
             var clef = new Clef(ClefType.GClef, 2);
             musicalSymbols.Add(clef);
-
-            foreach (var bar in song.Bars)
+            //TODO: REPETITON
+            foreach (var bar in Song.Bars)
             {
                 musicalSymbols.Add(new TimeSignature(TimeSignatureType.Numbers, (uint)bar.Rhythm.Item1, (uint)bar.Rhythm.Item2));
                 foreach (var musicNote in bar.MusicNotes)
@@ -30,22 +38,14 @@ namespace DPA_Musicsheets.Converters
                         continue;
                     }
 
-                    var note = new Note(musicNote.Tone.ToString().ToUpper(),(int)musicNote.Modifier, musicNote.Octave,(MusicalSymbolDuration)musicNote.Duration ,NoteStemDirection.Up, NoteTieType.None, null);
-                    
-                    
+                    var note = new Note(musicNote.Tone.ToString().ToUpper(), (int)musicNote.Modifier, musicNote.Octave, (MusicalSymbolDuration)musicNote.Duration, NoteStemDirection.Up, NoteTieType.None, null);
+
                     musicalSymbols.Add(note);
                 }
                 musicalSymbols.Add(new Barline());
             }
-            return null;
-        }
+            return musicalSymbols;
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            var Song = value as Song;
-            if (Song == null) return null;
-
-            var musicalSymbols = new List<MusicalSymbol>();
 
             return musicalSymbols;
         }
