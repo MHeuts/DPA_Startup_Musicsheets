@@ -103,10 +103,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BaseCommand.cs" />
     <Compile Include="Converters\StaffConverter.cs" />
     <Compile Include="IO\IMusicFileParser.cs" />
     <Compile Include="IO\LilypondFileParser.cs" />
     <Compile Include="IO\MidiFileParser.cs" />
+    <Compile Include="LilyPondEditor\Memento\Caretaker.cs" />
+    <Compile Include="LilyPondEditor\Memento\Memento.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Models\Bar.cs" />

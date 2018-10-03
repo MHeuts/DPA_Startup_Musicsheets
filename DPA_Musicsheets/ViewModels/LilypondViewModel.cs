@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using DPA_Musicsheets.LilyPondEditor.Memento;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -15,6 +16,8 @@ namespace DPA_Musicsheets.ViewModels
     {
         private MusicLoader _musicLoader;
         private MainViewModel _mainViewModel { get; set; }
+
+        private Caretaker _caretaker;
 
         private string _text;
         private string _previousText;
@@ -42,6 +45,8 @@ namespace DPA_Musicsheets.ViewModels
         }
 
         private bool _textChangedByLoad = false;
+        private bool _textChangedByCommand = false;
+
         private DateTime _lastChange;
         private static int MILLISECONDS_BEFORE_CHANGE_HANDLED = 1500;
         private bool _waitingForRender = false;
@@ -50,6 +55,7 @@ namespace DPA_Musicsheets.ViewModels
         {
             // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer and viewmodels don't know each other?
             // And viewmodels don't 
+            _caretaker = new Caretaker();
             _mainViewModel = mainViewModel;
             _musicLoader = musicLoader;
             _musicLoader.LilypondViewModel = this;
@@ -61,6 +67,7 @@ namespace DPA_Musicsheets.ViewModels
         {
             _textChangedByLoad = true;
             LilypondText = _previousText = text;
+            _caretaker.Save(LilypondText);
             _textChangedByLoad = false;
         }
 
@@ -75,12 +82,16 @@ namespace DPA_Musicsheets.ViewModels
                 _waitingForRender = true;
                 _lastChange = DateTime.Now;
 
+                if (!_textChangedByCommand)
+                    _caretaker.Save(LilypondText);
+
                 _mainViewModel.CurrentState = "Rendering...";
 
                 Task.Delay(MILLISECONDS_BEFORE_CHANGE_HANDLED).ContinueWith((task) =>
                 {
                     if ((DateTime.Now - _lastChange).TotalMilliseconds >= MILLISECONDS_BEFORE_CHANGE_HANDLED)
                     {
+
                         _waitingForRender = false;
                         UndoCommand.RaiseCanExecuteChanged();
 
@@ -94,18 +105,28 @@ namespace DPA_Musicsheets.ViewModels
         #region Commands for buttons like Undo, Redo and SaveAs
         public RelayCommand UndoCommand => new RelayCommand(() =>
         {
+            _textChangedByCommand = true;
+            LilypondText = _caretaker.Undo(LilypondText);
+            _textChangedByCommand = false;
+            /*
             _nextText = LilypondText;
             LilypondText = _previousText;
-            _previousText = null;
-        }, () => _previousText != null && _previousText != LilypondText);
+            _previousText = null;*/
+            RedoCommand.RaiseCanExecuteChanged();
+        }, () => _caretaker.CanUndo());
 
         public RelayCommand RedoCommand => new RelayCommand(() =>
         {
+            _textChangedByCommand = true;
+            LilypondText = _caretaker.Redo(LilypondText);
+            _textChangedByCommand = false;
+            /*
             _previousText = LilypondText;
             LilypondText = _nextText;
             _nextText = null;
-            RedoCommand.RaiseCanExecuteChanged();
-        }, () => _nextText != null && _nextText != LilypondText);
+            */
+            UndoCommand.RaiseCanExecuteChanged();
+        }, () => _caretaker.CanRedo());
 
         public ICommand SaveAsCommand => new RelayCommand(() =>
         {

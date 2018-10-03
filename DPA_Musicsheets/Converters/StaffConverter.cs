@@ -27,6 +27,7 @@ namespace DPA_Musicsheets.Converters
             var clef = new Clef(ClefType.GClef, 2);
             musicalSymbols.Add(clef);
             //TODO: REPETITON
+            
             foreach (var bar in Song.Bars)
             {
                 musicalSymbols.Add(new TimeSignature(TimeSignatureType.Numbers, (uint)bar.Rhythm.Item1, (uint)bar.Rhythm.Item2));
@@ -43,10 +44,8 @@ namespace DPA_Musicsheets.Converters
                     musicalSymbols.Add(note);
                 }
                 musicalSymbols.Add(new Barline());
+                
             }
-            return musicalSymbols;
-
-
             return musicalSymbols;
         }
 
