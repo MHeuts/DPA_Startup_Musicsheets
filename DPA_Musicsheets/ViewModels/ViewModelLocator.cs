@@ -1,5 +1,8 @@
-﻿using DPA_Musicsheets.IO;
+﻿using DPA_Musicsheets.Converters.Midi;
+using DPA_Musicsheets.Converters.Midi.MidiEventHandlers;
+using DPA_Musicsheets.IO;
 using DPA_Musicsheets.Managers;
+using DPA_Musicsheets.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
@@ -22,6 +25,10 @@ namespace DPA_Musicsheets.ViewModels
             SimpleIoc.Default.Register<StaffsViewModel>();
             SimpleIoc.Default.Register<MidiPlayerViewModel>();
             SimpleIoc.Default.Register<MidiFileParser>();
+
+            SimpleIoc.Default.Register<NoteFactory>();
+            SimpleIoc.Default.Register<MidiMessageHandlerFactory>();
+            SimpleIoc.Default.Register<MidiConverter>();
         }
 
         public MainViewModel MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();

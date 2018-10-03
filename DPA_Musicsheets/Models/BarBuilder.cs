@@ -12,6 +12,26 @@ namespace DPA_Musicsheets.Models
         private Tuple<int, int> _rhythm;
         private int _tempo;
 
+        public Tuple<int, int> Rhythm
+        {
+            get { return _rhythm; }
+            set
+            {
+                _bar.Rhythm = value;
+                _rhythm = value;
+            }
+        }
+
+        public int Tempo
+        {
+            get { return _tempo; }
+            set
+            {
+                _bar.Bpm = value;
+                _tempo = value;
+            }
+        }
+
         public BarBuilder()
         {
             _bar = new Bar {
@@ -23,19 +43,6 @@ namespace DPA_Musicsheets.Models
         public void AddNote(MusicNote note)
         {
             _bar.MusicNotes.Add(note);
-        }
-
-        public void SetRhythm(Tuple<int, int> rhythm)
-        {
-            _rhythm = rhythm;
-            _bar.Rhythm = rhythm;
-        }
-
-
-        public void SetTempo(int tempo)
-        {
-            _tempo = tempo;
-            _bar.Bpm = tempo;
         }
 
         public void AddNote(Tone tone, double duration, bool dot, int octave, Modifier modifier)

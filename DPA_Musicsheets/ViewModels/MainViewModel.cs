@@ -1,4 +1,5 @@
 ﻿using DPA_Musicsheets.IO;
+using DPA_Musicsheets.IO.Midi;
 using DPA_Musicsheets.Managers;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -65,7 +66,8 @@ namespace DPA_Musicsheets.ViewModels
         public ICommand LoadCommand => new RelayCommand(() =>
         {
             _musicLoader.OpenFile(FileName);
-            var song =_midiFileParser.parseFile(FileName);
+            var song = new MidiFileHandler().LoadFile(FileName);
+            Console.Write("LOEL");
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys

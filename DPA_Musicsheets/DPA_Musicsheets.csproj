@@ -103,9 +103,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\Midi\MidiConverter.cs" />
+    <Compile Include="Converters\Midi\MidiConverterContext.cs" />
+    <Compile Include="Converters\Midi\MidiEventHandlers\ChannelMessageHandler.cs" />
+    <Compile Include="Converters\Midi\MidiEventHandlers\ChannelMessageHandlers\NoteOnMessageHandler.cs" />
+    <Compile Include="Converters\Midi\MidiEventHandlers\IMidiMessageHandler.cs" />
+    <Compile Include="Converters\Midi\MidiEventHandlers\MetaMessageHandler.cs" />
+    <Compile Include="Converters\Midi\MidiEventHandlers\MetaMessageHandlers\EndOfTrackMessageHandler.cs" />
+    <Compile Include="Converters\Midi\MidiEventHandlers\MetaMessageHandlers\TempoMessageHandler.cs" />
+    <Compile Include="Converters\Midi\MidiEventHandlers\MetaMessageHandlers\TimeSignatureMessageHandler.cs" />
+    <Compile Include="Converters\Midi\MidiEventHandlers\MidiMessageHandlerFactory.cs" />
+    <Compile Include="IO\IMusicFileHandler.cs" />
     <Compile Include="IO\IMusicFileParser.cs" />
     <Compile Include="IO\LilypondFileParser.cs" />
     <Compile Include="IO\MidiFileParser.cs" />
+    <Compile Include="IO\Midi\MidiFileHandler.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Models\Bar.cs" />
@@ -236,6 +248,9 @@
     <Content Include="Files\Eenvoudige voorbeeldfiles\Punten.ly" />
     <Content Include="Files\Eenvoudige voorbeeldfiles\Rusten.ly" />
     <Content Include="Files\Eenvoudige voorbeeldfiles\Standaard_noten.ly" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Converters\LilyPond\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

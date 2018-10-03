@@ -8,7 +8,7 @@ namespace DPA_Musicsheets.Models
 {
     public class NoteFactory
     {
-        public MusicNote create(int midikey)
+        public MusicNote Create(int midikey)
         {
             MusicNote note = new MusicNote
             {
@@ -17,6 +17,15 @@ namespace DPA_Musicsheets.Models
             note.Tone = getNote(midikey, out Modifier modifier);
             note.Modifier = modifier;
 
+            return note;
+        }
+
+        public  MusicNote CreateRest()
+        {
+            MusicNote note = new MusicNote
+            {
+                Tone = Tone.Silent,
+            };
             return note;
         }
 

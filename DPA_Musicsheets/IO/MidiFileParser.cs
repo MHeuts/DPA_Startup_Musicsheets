@@ -51,13 +51,13 @@ namespace DPA_Musicsheets.IO
                                     byte[] timeSignatureBytes = metaMessage.GetBytes();
                                     beatNote = timeSignatureBytes[0];
                                     beatsPerBar = (int)(1 / Math.Pow(timeSignatureBytes[1], -2));
-                                    bb.SetRhythm(new Tuple<int, int>(beatNote, beatsPerBar));
+                                    bb.Rhythm = new Tuple<int, int>(beatNote, beatsPerBar);
                                     break;
                                 case MetaType.Tempo:
                                     byte[] tempoBytes = metaMessage.GetBytes();
                                     int tempo = (tempoBytes[0] & 0xff) << 16 | (tempoBytes[1] & 0xff) << 8 | (tempoBytes[2] & 0xff);
                                     var bpm = 60000000 / tempo;
-                                    bb.SetTempo(bpm);
+                                    bb.Tempo = bpm;
                                     break;
                                 case MetaType.EndOfTrack:
                                     if (previousNoteAbsoluteTicks > 0)
@@ -97,7 +97,7 @@ namespace DPA_Musicsheets.IO
 
                                     //TODO: Notelength
                                     var noteLength = GetNoteLength(previousNoteAbsoluteTicks, midiEvent.AbsoluteTicks, division, beatNote, beatsPerBar, out hasDot, out percentageOfBar);
-                                    MusicNote note = nf.create(previousMidiKey);
+                                    MusicNote note = nf.Create(previousMidiKey);
                                     note.Duration = noteLength;
                                     note.Dot = hasDot;
                                     bb.AddNote(note);
