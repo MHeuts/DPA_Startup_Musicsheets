@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using DPA_Musicsheets.LilyPondEditor.Memento;
+using DPA_Musicsheets.Views;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -18,7 +19,7 @@ namespace DPA_Musicsheets.ViewModels
         private MainViewModel _mainViewModel { get; set; }
 
         private Caretaker _caretaker;
-
+       
         private string _text;
         private string _previousText;
         private string _nextText;
