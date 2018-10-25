@@ -119,6 +119,11 @@
     <Compile Include="IO\IMusicFileParser.cs" />
     <Compile Include="IO\LilypondFileParser.cs" />
     <Compile Include="IO\MidiFileParser.cs" />
+    <Compile Include="LilyPondEditor\Command\FileCommand\FileCommand.cs" />
+    <Compile Include="LilyPondEditor\Command\FileCommand\SaveAsLilyCommand.cs" />
+    <Compile Include="LilyPondEditor\Command\InsertCommand\InsertCleffCommand.cs" />
+    <Compile Include="LilyPondEditor\Command\InsertCommand\InsertCommand.cs" />
+    <Compile Include="LilyPondEditor\Command\InsertCommand\InsertSpeedCommand.cs" />
     <Compile Include="IO\MusicFileManager.cs" />
     <Compile Include="IO\SongLoadedEventsArgs.cs" />
     <Compile Include="LilyPondEditor\Memento\Caretaker.cs" />
