@@ -16,7 +16,7 @@ namespace DPA_Musicsheets.IO.Midi
 
         public MidiFileHandler()
         {
-            Extensions = new List<string> { ".midi" };
+            Extensions = new List<string> { "midi", "mid" };
         }
 
         public Song LoadFile(string fileName)

@@ -125,6 +125,8 @@
     <Compile Include="LilyPondEditor\Command\InsertCommand\InsertCleffCommand.cs" />
     <Compile Include="LilyPondEditor\Command\InsertCommand\InsertCommand.cs" />
     <Compile Include="LilyPondEditor\Command\InsertCommand\InsertSpeedCommand.cs" />
+    <Compile Include="IO\MusicFileManager.cs" />
+    <Compile Include="IO\SongLoadedEventsArgs.cs" />
     <Compile Include="LilyPondEditor\Memento\Caretaker.cs" />
     <Compile Include="LilyPondEditor\Memento\Memento.cs" />
     <Compile Include="IO\Midi\MidiFileHandler.cs" />

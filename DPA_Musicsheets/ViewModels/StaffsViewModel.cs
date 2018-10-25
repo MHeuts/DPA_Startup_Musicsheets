@@ -1,4 +1,6 @@
-﻿using DPA_Musicsheets.Managers;
+﻿using DPA_Musicsheets.IO;
+using DPA_Musicsheets.Managers;
+using DPA_Musicsheets.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using PSAMControlLibrary;
@@ -17,32 +19,30 @@ namespace DPA_Musicsheets.ViewModels
 {
     public class StaffsViewModel : ViewModelBase
     {
-        // These staffs will be bound to.
-        public ObservableCollection<MusicalSymbol> Staffs { get; }
+        private Song _song;
+        public Song Song
+        {
+            get { return _song; }
+            set
+            {
+                _song = value;
+                RaisePropertyChanged("Song");
+            }
+        }
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="musicLoader">We need the musicloader so it can set our staffs.</param>
-        public StaffsViewModel(MusicLoader musicLoader)
+        public StaffsViewModel(MusicFileManager fileManager)
         {
-            // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer?
-            musicLoader.StaffsViewModel = this;
-            Staffs = new ObservableCollection<MusicalSymbol>();
+            fileManager.SongLoaded += this.OnSongLoaded;
         }
 
-        /// <summary>
-        /// SetStaffs fills the observablecollection with new symbols. 
-        /// We don't want to reset the collection because we don't want other classes to create an observable collection.
-        /// </summary>
-        /// <param name="symbols">The new symbols to show.</param>
-        public void SetStaffs(IList<MusicalSymbol> symbols)
+        private void OnSongLoaded(object sender, EventArgs eventsArgs)
         {
-            Staffs.Clear();
-            foreach (var symbol in symbols)
-            {
-                Staffs.Add(symbol);
-            }
+            var args = eventsArgs as SongLoadedEventsArgs;
+            Song = args?.Song;
         }
     }
 }

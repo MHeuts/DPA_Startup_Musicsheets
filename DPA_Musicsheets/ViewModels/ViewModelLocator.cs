@@ -24,8 +24,8 @@ namespace DPA_Musicsheets.ViewModels
             SimpleIoc.Default.Register<LilypondViewModel>();
             SimpleIoc.Default.Register<StaffsViewModel>();
             SimpleIoc.Default.Register<MidiPlayerViewModel>();
-            SimpleIoc.Default.Register<MidiFileParser>();
 
+            SimpleIoc.Default.Register<MusicFileManager>();
             SimpleIoc.Default.Register<NoteFactory>();
             SimpleIoc.Default.Register<MidiMessageHandlerFactory>();
             SimpleIoc.Default.Register<MidiConverter>();

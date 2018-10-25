@@ -4,12 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:psamwpfcontrollibrary="clr-namespace:PSAMWPFControlLibrary;assembly=PSAMWPFControlLibrary"
+             xmlns:converters="clr-namespace:DPA_Musicsheets.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300"
              DataContext="{Binding StaffsViewModel, Source={StaticResource Locator}}"
              HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <UserControl.Resources>
+        <converters:StaffConverter x:Key="staffConverter"></converters:StaffConverter>
+    </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <psamwpfcontrollibrary:IncipitViewerWPF MusicalSymbols="{ Binding Staffs }" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <psamwpfcontrollibrary:IncipitViewerWPF MusicalSymbols="{ Binding Song, Converter={StaticResource staffConverter}, NotifyOnSourceUpdated=True}" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Top">
         </psamwpfcontrollibrary:IncipitViewerWPF>
     </ScrollViewer>
 </UserControl>
