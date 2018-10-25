@@ -13,7 +13,7 @@
         <converters:StaffConverter x:Key="staffConverter"></converters:StaffConverter>
     </UserControl.Resources>
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <psamwpfcontrollibrary:IncipitViewerWPF MusicalSymbols="{ Binding Song, Converter={StaticResource staffConverter}, NotifyOnSourceUpdated=True}" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+        <psamwpfcontrollibrary:IncipitViewerWPF MusicalSymbols="{ Binding Song, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource staffConverter}}" Margin="20" HorizontalAlignment="Stretch" VerticalAlignment="Top">
         </psamwpfcontrollibrary:IncipitViewerWPF>
     </ScrollViewer>
 </UserControl>

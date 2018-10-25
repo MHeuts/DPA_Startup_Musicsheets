@@ -15,15 +15,15 @@ namespace DPA_Musicsheets.Converters
     {
         public ObservableCollection<MusicalSymbol> Convert(Song song)
         {
-            return (ObservableCollection<MusicalSymbol>)Convert(song, typeof(List<MusicalSymbol>), null, null);
+            return (ObservableCollection<MusicalSymbol>)Convert(song, typeof(ObservableCollection<MusicalSymbol>), null, null);
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var Song = value as Song;
-            if (Song == null) return null;
-            
             var musicalSymbols = new ObservableCollection<MusicalSymbol>();
+            var Song = value as Song;
+            if (Song != null)
+            {
 
             var clef = new Clef(ClefType.GClef, 2);
             musicalSymbols.Add(clef);
@@ -42,10 +42,11 @@ namespace DPA_Musicsheets.Converters
                     musicNote.Duration = 1 / musicNote.Duration;
                     var note = new Note(musicNote.Tone.ToString().ToUpper(), (int)musicNote.Modifier, musicNote.Octave, (MusicalSymbolDuration)musicNote.Duration, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single });
 
-                    musicalSymbols.Add(note);
+                        musicalSymbols.Add(note);
+                    }
+                    musicalSymbols.Add(new Barline());
+
                 }
-                musicalSymbols.Add(new Barline());
-                
             }
             return musicalSymbols;
         }
