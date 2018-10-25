@@ -11,7 +11,7 @@ namespace DPA_Musicsheets.LilyPondEditor.Command.InsertCommand
     {
         public TextBox textBox;
 
-        protected InsertCommand(TextBox textBox)
+        protected InsertCommand()
         {
             this.textBox = textBox;
         }

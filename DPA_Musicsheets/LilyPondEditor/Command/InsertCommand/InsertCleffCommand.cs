@@ -9,7 +9,7 @@ namespace DPA_Musicsheets.LilyPondEditor.Command.InsertCommand
 {
     public class InsertCleffCommand : InsertCommand
     {
-        public InsertCleffCommand(TextBox textBox) : base(textBox)
+        public InsertCleffCommand() : base()
         { }
 
         public override void Execute()

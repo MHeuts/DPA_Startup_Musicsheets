@@ -103,6 +103,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\LilyPond\LilyPondConverter.cs" />
     <Compile Include="Converters\Midi\MidiConverter.cs" />
     <Compile Include="Converters\Midi\MidiConverterContext.cs" />
     <Compile Include="Converters\Midi\MidiEventHandlers\ChannelMessageHandler.cs" />
@@ -127,6 +128,8 @@
     <Compile Include="LilyPondEditor\Memento\Caretaker.cs" />
     <Compile Include="LilyPondEditor\Memento\Memento.cs" />
     <Compile Include="IO\Midi\MidiFileHandler.cs" />
+    <Compile Include="LilyPondEditor\Shortcut\Shortcut.cs" />
+    <Compile Include="LilyPondEditor\Shortcut\ShortcutListener.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />
     <Compile Include="Models\Bar.cs" />
@@ -258,9 +261,7 @@
     <Content Include="Files\Eenvoudige voorbeeldfiles\Rusten.ly" />
     <Content Include="Files\Eenvoudige voorbeeldfiles\Standaard_noten.ly" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\LilyPond\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

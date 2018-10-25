@@ -10,6 +10,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DPA_Musicsheets.LilyPondEditor.Memento;
 using DPA_Musicsheets.Views;
+using DPA_Musicsheets.LilyPondEditor.Shortcuts;
+using DPA_Musicsheets.LilyPondEditor.Command.InsertCommand;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -19,6 +21,8 @@ namespace DPA_Musicsheets.ViewModels
         private MainViewModel _mainViewModel { get; set; }
 
         private Caretaker _caretaker;
+
+        private ShortcutListener shortcutListner;
        
         private string _text;
         private string _previousText;
@@ -60,8 +64,10 @@ namespace DPA_Musicsheets.ViewModels
             _mainViewModel = mainViewModel;
             _musicLoader = musicLoader;
             _musicLoader.LilypondViewModel = this;
-            
             _text = "Your lilypond text will appear here.";
+
+            shortcutListner = new ShortcutListener();
+            shortcutListner.AddShortcut(new Key[] { Key.LeftAlt, Key.L }, new InsertCleffCommand());
         }
 
         public void LilypondTextLoaded(string text)
@@ -109,10 +115,6 @@ namespace DPA_Musicsheets.ViewModels
             _textChangedByCommand = true;
             LilypondText = _caretaker.Undo(LilypondText);
             _textChangedByCommand = false;
-            /*
-            _nextText = LilypondText;
-            LilypondText = _previousText;
-            _previousText = null;*/
             RedoCommand.RaiseCanExecuteChanged();
         }, () => _caretaker.CanUndo());
 
@@ -121,11 +123,6 @@ namespace DPA_Musicsheets.ViewModels
             _textChangedByCommand = true;
             LilypondText = _caretaker.Redo(LilypondText);
             _textChangedByCommand = false;
-            /*
-            _previousText = LilypondText;
-            LilypondText = _nextText;
-            _nextText = null;
-            */
             UndoCommand.RaiseCanExecuteChanged();
         }, () => _caretaker.CanRedo());
 
@@ -156,5 +153,6 @@ namespace DPA_Musicsheets.ViewModels
             }
         });
         #endregion Commands for buttons like Undo, Redo and SaveAs
+
     }
 }

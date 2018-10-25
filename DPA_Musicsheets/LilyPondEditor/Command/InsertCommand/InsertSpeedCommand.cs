@@ -9,7 +9,7 @@ namespace DPA_Musicsheets.LilyPondEditor.Command.InsertCommand
 {
     public class InsertSpeedCommand : InsertCommand
     {
-        public InsertSpeedCommand(TextBox textBox) : base(textBox)
+        public InsertSpeedCommand() : base()
         { }
 
         public override void Execute()
