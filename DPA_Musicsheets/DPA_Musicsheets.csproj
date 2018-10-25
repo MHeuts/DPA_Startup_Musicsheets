@@ -119,6 +119,8 @@
     <Compile Include="IO\IMusicFileParser.cs" />
     <Compile Include="IO\LilypondFileParser.cs" />
     <Compile Include="IO\MidiFileParser.cs" />
+    <Compile Include="IO\MusicFileManager.cs" />
+    <Compile Include="IO\SongLoadedEventsArgs.cs" />
     <Compile Include="LilyPondEditor\Memento\Caretaker.cs" />
     <Compile Include="LilyPondEditor\Memento\Memento.cs" />
     <Compile Include="IO\Midi\MidiFileHandler.cs" />

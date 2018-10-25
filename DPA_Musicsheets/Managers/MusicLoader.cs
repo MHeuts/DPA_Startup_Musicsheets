@@ -37,7 +37,6 @@ namespace DPA_Musicsheets.Managers
         public MainViewModel MainViewModel { get; set; }
         public LilypondViewModel LilypondViewModel { get; set; }
         public MidiPlayerViewModel MidiPlayerViewModel { get; set; }
-        public StaffsViewModel StaffsViewModel { get; set; }
 
         /// <summary>
         /// Opens a file.
@@ -90,7 +89,6 @@ namespace DPA_Musicsheets.Managers
             WPFStaffs.Clear();
 
             WPFStaffs.AddRange(GetStaffsFromTokens(tokens));
-            this.StaffsViewModel.SetStaffs(this.WPFStaffs);
 
             MidiSequence = GetSequenceFromWPFStaffs();
             MidiPlayerViewModel.MidiSequence = MidiSequence;
