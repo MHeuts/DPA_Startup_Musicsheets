@@ -11,7 +11,6 @@ using System.Windows.Input;
 using DPA_Musicsheets.LilyPondEditor.Memento;
 using DPA_Musicsheets.Views;
 using DPA_Musicsheets.LilyPondEditor.Shortcuts;
-using DPA_Musicsheets.LilyPondEditor.Command.InsertCommand;
 using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.ViewModels
@@ -22,11 +21,10 @@ namespace DPA_Musicsheets.ViewModels
         private MainViewModel _mainViewModel { get; set; }
 
         private Caretaker _caretaker;
-
         public Staff song;
 
-        private ShortcutListener shortcutListner;
-       
+        public ShortcutListener ShortcutListener { get; }
+        public ILilypondTextBox TextBox { get; set; }
         private string _text;
         private string _previousText;
         private string _nextText;
@@ -69,8 +67,31 @@ namespace DPA_Musicsheets.ViewModels
             _musicLoader.LilypondViewModel = this;
             _text = "Your lilypond text will appear here.";
 
-            shortcutListner = new ShortcutListener();
-            shortcutListner.AddShortcut(new Key[] { Key.LeftAlt, Key.L }, new InsertCleffCommand());
+            ShortcutListener = new ShortcutListener();
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.C }, () =>
+            {
+                TextBox.InsertAtCaretIndex("\\clef treble");
+            });
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.S }, () =>
+            {
+                TextBox.InsertAtCaretIndex("\\tempo 4=120");
+            });
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D4}, () =>
+            {
+                TextBox.InsertAtCaretIndex("\\time 4/4");
+            });
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D3 }, () =>
+            {
+                TextBox.InsertAtCaretIndex("\\time 3/4");
+            });
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D6 }, () =>
+            {
+                TextBox.InsertAtCaretIndex("\\time 6/8");
+            });
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.T }, () =>
+            {
+                TextBox.InsertAtCaretIndex("\\time 4/4");
+            });
         }
 
         public void LilypondTextLoaded(string text)
@@ -156,6 +177,6 @@ namespace DPA_Musicsheets.ViewModels
             }
         });
         #endregion Commands for buttons like Undo, Redo and SaveAs
-
+        
     }
 }

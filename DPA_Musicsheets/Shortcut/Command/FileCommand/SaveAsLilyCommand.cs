@@ -11,7 +11,7 @@ namespace DPA_Musicsheets.LilyPondEditor.Command.FileCommand
 {
     public class SaveAsLilyCommand : FileCommand
     {
-        public SaveAsLilyCommand(MusicLoader loader) : base(loader)
+        public SaveAsLilyCommand() : base()
         { }
 
         public override void Execute()

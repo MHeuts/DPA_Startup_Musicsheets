@@ -11,7 +11,7 @@ namespace DPA_Musicsheets.LilyPondEditor.Command.FileCommand
     abstract public class FileCommand : BaseCommand
     {
         public MusicLoader loader;
-        protected FileCommand(MusicLoader loader)
+        protected FileCommand()
         {
             this.loader = loader;
         }

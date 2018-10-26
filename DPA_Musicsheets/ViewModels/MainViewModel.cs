@@ -1,30 +1,16 @@
 ﻿using DPA_Musicsheets.IO;
-using DPA_Musicsheets.IO.Midi;
 using DPA_Musicsheets.LilyPondEditor.Shortcuts;
-using DPA_Musicsheets.Managers;
 using DPA_Musicsheets.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
-using PSAMWPFControlLibrary;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
-using DPA_Musicsheets.LilyPondEditor.Command;
-using DPA_Musicsheets.LilyPondEditor.Command.InsertCommand;
-using DPA_Musicsheets.LilyPondEditor.Command.FileCommand;
 
 namespace DPA_Musicsheets.ViewModels
 {
     public class MainViewModel : ViewModelBase
     {
-        
-
         private string _fileName;
         public string FileName
         {
@@ -51,6 +37,7 @@ namespace DPA_Musicsheets.ViewModels
         }
 
         public Staff Song { get; set; }
+        private ShortcutListener shortcutListener;
 
         //private MusicLoader _musicLoader;
         //private MidiFileParser _midiFileParser;
@@ -85,7 +72,6 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand OnKeyDownCommand => new RelayCommand<KeyEventArgs>((e) =>
         {
-            Console.WriteLine($"Key down: {e.Key}");
         });
 
         public ICommand OnKeyUpCommand => new RelayCommand(() =>
