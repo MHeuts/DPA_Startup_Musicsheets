@@ -19,7 +19,7 @@ namespace DPA_Musicsheets.IO.Midi
             Extensions = new List<string> { "midi", "mid" };
         }
 
-        public Song LoadFile(string fileName)
+        public Staff LoadFile(string fileName)
         {
             var converter = new MidiConverter(new NoteFactory(), new MidiMessageHandlerFactory());
             var midiSequence = new Sequence();
@@ -28,7 +28,7 @@ namespace DPA_Musicsheets.IO.Midi
             return converter.ConvertBack(midiSequence);
         }
 
-        public void SaveFile(string fileName, Song song)
+        public void SaveFile(string fileName, Staff song)
         {
             throw new NotImplementedException();
         }

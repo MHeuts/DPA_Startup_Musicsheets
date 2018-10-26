@@ -9,6 +9,6 @@ namespace DPA_Musicsheets.IO
 {
     public class SongLoadedEventsArgs : EventArgs
     {
-        public Song Song { get; set; }
+        public Staff Song { get; set; }
     }
 }

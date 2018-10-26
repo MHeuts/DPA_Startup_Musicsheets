@@ -23,7 +23,7 @@ namespace DPA_Musicsheets.Converters.Midi
         public double PercentageOfBarReached { get; set; }
         public int PreviousNoteAbsoluteTicks { get; set; }
         public bool StartedNoteIsClosed { get; set; }
-        public Song Song { get; set; }
+        public Staff Song { get; set; }
         public Bar Bar { get; set; }
         public MusicNote CurrentNote { get; set; }
         public NoteFactory NoteFactory { get; }

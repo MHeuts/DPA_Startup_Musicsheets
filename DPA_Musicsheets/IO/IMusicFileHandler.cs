@@ -10,8 +10,8 @@ namespace DPA_Musicsheets.IO
     public interface IMusicFileHandler
     {
 
-        Song LoadFile(string fileName);
-        void SaveFile(string fileName, Song song);
+        Staff LoadFile(string fileName);
+        void SaveFile(string fileName, Staff song);
 
         List<string> Extensions { get; }
 

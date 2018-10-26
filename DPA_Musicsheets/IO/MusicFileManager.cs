@@ -26,9 +26,9 @@ namespace DPA_Musicsheets.IO
             SongLoaded?.Invoke(this, e);
         }
 
-        public Song Load(string filename)
+        public Staff Load(string filename)
         {
-            Song song = null;
+            Staff song = null;
             string extension = filename.Split('.').Last();
             foreach (var handler in _handlers)
             {

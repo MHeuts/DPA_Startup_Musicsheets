@@ -18,19 +18,19 @@ namespace DPA_Musicsheets.Converters.Midi
 
         }
 
-        public Song ConvertBack(Sequence sequence)
+        public Staff ConvertBack(Sequence sequence)
         {
-            return (Song)ConvertBack(sequence, typeof(Song), null, null);
+            return (Staff)ConvertBack(sequence, typeof(Staff), null, null);
         }
 
-        public Sequence Convert(Song song)
+        public Sequence Convert(Staff song)
         {
             return (Sequence)Convert(song, typeof(Sequence), null, null);
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var song = value as Song;
+            var song = value as Staff;
             if (song == null) return null;
 
             var sequence = new Sequence();
@@ -46,7 +46,7 @@ namespace DPA_Musicsheets.Converters.Midi
             if (Sequence == null) return null;
 
             SequenceCount = 0;
-            Song = new Song();
+            Song = new Staff();
             Bar = new Bar();
 
             for (; SequenceCount < Sequence.Count();)

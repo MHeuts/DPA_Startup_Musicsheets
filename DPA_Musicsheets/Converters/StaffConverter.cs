@@ -13,7 +13,7 @@ namespace DPA_Musicsheets.Converters
 {
     class StaffConverter : IValueConverter
     {
-        public ObservableCollection<MusicalSymbol> Convert(Song song)
+        public ObservableCollection<MusicalSymbol> Convert(Staff song)
         {
             return (ObservableCollection<MusicalSymbol>)Convert(song, typeof(ObservableCollection<MusicalSymbol>), null, null);
         }
@@ -21,7 +21,7 @@ namespace DPA_Musicsheets.Converters
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             var musicalSymbols = new ObservableCollection<MusicalSymbol>();
-            var Song = value as Song;
+            var Song = value as Staff;
             if (Song != null)
             {
 

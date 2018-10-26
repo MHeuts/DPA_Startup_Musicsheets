@@ -6,14 +6,16 @@ using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
-    public class Bar : StaffElement
+    public class Staff : StaffElement
     {
-        public Bar()
+        public Staff()
         {
-            MusicNotes = new List<MusicNote>();
+            Children = new List<StaffElement>();
         }
-
-        public List<MusicNote> MusicNotes { get; set; }
+        
+        public List<StaffElement> Children { get; private set; }
+        public Tuple<int, int> Rhythm { get; set; }
+        public int Bpm { get; set; }
 
         public override void Accept(IStaffElementVisitor visitor)
         {

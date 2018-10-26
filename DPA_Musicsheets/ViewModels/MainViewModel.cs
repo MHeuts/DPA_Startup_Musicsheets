@@ -50,7 +50,7 @@ namespace DPA_Musicsheets.ViewModels
             set { _currentState = value; RaisePropertyChanged(() => CurrentState); }
         }
 
-        public Song Song { get; set; }
+        public Staff Song { get; set; }
 
         //private MusicLoader _musicLoader;
         //private MidiFileParser _midiFileParser;

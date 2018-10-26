@@ -19,8 +19,8 @@ namespace DPA_Musicsheets.ViewModels
 {
     public class StaffsViewModel : ViewModelBase
     {
-        private Song _song;
-        public Song Song
+        private Staff _song;
+        public Staff Song
         {
             get { return _song; }
             set
