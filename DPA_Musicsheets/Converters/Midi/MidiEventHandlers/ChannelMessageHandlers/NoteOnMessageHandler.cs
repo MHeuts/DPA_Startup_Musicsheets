@@ -23,7 +23,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.ChannelMessageHandle
             else if (!context.StartedNoteIsClosed)
             {
                 // Finish the previous note with the length.
-                context.CurrentNote.Duration = GetNoteLength(context.PreviousNoteAbsoluteTicks, context.MidiEvent.AbsoluteTicks, context.Sequence.Division, context.Bar.Rhythm.Item1, context.Bar.Rhythm.Item2, out bool dot, out double percentageOfBar);
+                context.CurrentNote.Duration = GetNoteLength(context.PreviousNoteAbsoluteTicks, context.MidiEvent.AbsoluteTicks, context.Sequence.Division, context.Staff.Rhythm.Item1, context.Staff.Rhythm.Item2, out bool dot, out double percentageOfBar);
                 context.CurrentNote.Dot = dot;
 
                 context.PercentageOfBarReached += percentageOfBar;
@@ -37,11 +37,8 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.ChannelMessageHandle
                 if (context.PercentageOfBarReached >= 1)
                 {
                     context.PercentageOfBarReached -= 1;
-                    context.Song.Bars.Add(context.Bar);
-                    context.Bar = new Bar {
-                        Rhythm = context.Bar.Rhythm,
-                        Bpm = context.Bar.Bpm
-                    };
+                    context.Staff.Children.Add(context.Bar);
+                    context.Bar = new Bar();
                 }
             }
             else

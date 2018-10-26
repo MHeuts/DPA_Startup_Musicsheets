@@ -9,51 +9,28 @@ using System.Windows.Data;
 
 namespace DPA_Musicsheets.Converters.LilyPond
 {
-    class LilyPondConverter : IValueConverter
+    class LilyPondConverter : IValueConverter, IStaffElementVisitor
     {
-        public string Convert(Song song)
+        private StringBuilder LilyText;
+
+        public string Convert(Staff song)
         {
             return (String)Convert(song, typeof(String), null, null);
         }
 
-        public Song ConvertBack(String lilyPond)
+        public Staff ConvertBack(String lilyPond)
         {
-            return (Song)ConvertBack(lilyPond, typeof(Song), null, null);
+            return (Staff)ConvertBack(lilyPond, typeof(Staff), null, null);
         }
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            StringBuilder LilyText = new StringBuilder();
-            var song = value as Song;
+            LilyText = new StringBuilder();
+            var song = value as Staff;
             if (song != null)
             {
-                LilyText.AppendLine("\\relative c' {");
-                LilyText.AppendLine("\\clef treble");
-                
-                foreach (var bar in song.Bars)
-                {
-                    LilyText.AppendLine($"\\time {bar.Rhythm.Item1}/{bar.Rhythm.Item2}");
-                    LilyText.AppendLine($"\\tempo 4={bar.Bpm}");
-                    foreach(var note in bar.MusicNotes)
-                    {
-                        if (note.Tone == Tone.Silent)
-                            LilyText.Append("r");
-                        else
-                            LilyText.Append(note.Tone);
-                        if (note.Modifier == Modifier.Sharp)
-                            LilyText.Append("is");
-                        else if (note.Modifier == Modifier.Flat)
-                            LilyText.Append("es");
-                        LilyText.Append($"{note.Duration}");
-                        if(note.Dot)
-                            LilyText.Append(".");
-                        LilyText.Append(" ");
-                    }
-                    LilyText.Append("| \n");
-                }
-
-                LilyText.Append("}");
-
+                // Visit
+                song.Accept(this);
             }
             return LilyText.ToString();
         }
@@ -61,6 +38,41 @@ namespace DPA_Musicsheets.Converters.LilyPond
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+
+        public void Visit(Staff staff)
+        {
+            LilyText.AppendLine("\\relative c' {");
+            LilyText.AppendLine("\\clef treble");
+            LilyText.AppendLine($"\\time {staff.Rhythm.Item1}/{staff.Rhythm.Item2}");
+            LilyText.AppendLine($"\\tempo 4={staff.Bpm}");
+
+            foreach (var child in staff.Children)
+            {
+                child.Accept(this);
+            }
+
+            LilyText.Append("}");
+        }
+
+        public void Visit(Bar bar)
+        {
+            foreach (var note in bar.MusicNotes)
+            {
+                if (note.Tone == Tone.Silent)
+                    LilyText.Append("r");
+                else
+                    LilyText.Append(note.Tone);
+                if (note.Modifier == Modifier.Sharp)
+                    LilyText.Append("is");
+                else if (note.Modifier == Modifier.Flat)
+                    LilyText.Append("es");
+                LilyText.Append($"{note.Duration}");
+                if (note.Dot)
+                    LilyText.Append(".");
+                LilyText.Append(" ");
+            }
+            LilyText.Append("| \n");
         }
     }
 }

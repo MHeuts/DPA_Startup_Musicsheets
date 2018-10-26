@@ -12,7 +12,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.MetaMessageHandlers
         protected override void HandleMetaMessage(MidiConverterContext context, MetaMessage message)
         {
             byte[] timeSignatureBytes = message.GetBytes();
-            context.Bar.Rhythm = new Tuple<int, int>(timeSignatureBytes[0], (int)Math.Pow(2,timeSignatureBytes[1]));
+            context.Staff.Rhythm = new Tuple<int, int>(timeSignatureBytes[0], (int)Math.Pow(2,timeSignatureBytes[1]));
         }
     }
 }

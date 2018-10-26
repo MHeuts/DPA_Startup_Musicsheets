@@ -23,7 +23,7 @@ namespace DPA_Musicsheets.ViewModels
 
         private Caretaker _caretaker;
 
-        public Song song;
+        public Staff song;
 
         private ShortcutListener shortcutListner;
        

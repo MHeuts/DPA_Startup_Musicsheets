@@ -13,7 +13,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.MetaMessageHandlers
         {
             byte[] tempoBytes = message.GetBytes();
             int tempo = (tempoBytes[0] & 0xff) << 16 | (tempoBytes[1] & 0xff) << 8 | (tempoBytes[2] & 0xff);
-            context.Bar.Bpm = 60000000 / tempo;
+            context.Staff.Bpm = 60000000 / tempo;
         }
     }
 }

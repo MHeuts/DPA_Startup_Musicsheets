@@ -42,6 +42,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
         private IMidiMessageHandler CreateMetaMessageHandler(IMidiMessage metaMessage)
         {
             var message = metaMessage as MetaMessage;
+            Console.WriteLine($"{message.MessageType}; {message.MetaType}; {message.ToString()}");
             if (message != null && metaHandlers.ContainsKey(message.MetaType))
             {
                 return metaHandlers[message.MetaType];

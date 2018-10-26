@@ -46,7 +46,7 @@ namespace DPA_Musicsheets.Converters.Midi
             if (Sequence == null) return null;
 
             SequenceCount = 0;
-            Song = new Staff();
+            Staff = new Staff();
             Bar = new Bar();
 
             for (; SequenceCount < Sequence.Count();)
@@ -61,7 +61,7 @@ namespace DPA_Musicsheets.Converters.Midi
                 }
             }
             
-            return Song;
+            return Staff;
         }
     }
 }

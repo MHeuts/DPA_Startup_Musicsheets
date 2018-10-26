@@ -11,8 +11,10 @@ using PSAMControlLibrary;
 
 namespace DPA_Musicsheets.Converters
 {
-    class StaffConverter : IValueConverter
+    class StaffConverter : IValueConverter, IStaffElementVisitor
     {
+        private ObservableCollection<MusicalSymbol> _symbols;
+
         public ObservableCollection<MusicalSymbol> Convert(Staff song)
         {
             return (ObservableCollection<MusicalSymbol>)Convert(song, typeof(ObservableCollection<MusicalSymbol>), null, null);
@@ -20,40 +22,45 @@ namespace DPA_Musicsheets.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var musicalSymbols = new ObservableCollection<MusicalSymbol>();
-            var Song = value as Staff;
-            if (Song != null)
+            _symbols = new ObservableCollection<MusicalSymbol>();
+            if (value is Staff staff)
             {
-
-            var clef = new Clef(ClefType.GClef, 2);
-            musicalSymbols.Add(clef);
-            //TODO: REPETITON
-            
-            foreach (var bar in Song.Bars)
-            {
-                musicalSymbols.Add(new TimeSignature(TimeSignatureType.Numbers, (uint)bar.Rhythm.Item1, (uint)bar.Rhythm.Item2));
-                foreach (var musicNote in bar.MusicNotes)
-                {
-                    if (musicNote.Tone == Tone.Silent)
-                    {
-                        musicalSymbols.Add(new Rest((MusicalSymbolDuration)musicNote.Duration));
-                        continue;
-                    }
-                    musicNote.Duration = 1 / musicNote.Duration;
-                    var note = new Note(musicNote.Tone.ToString().ToUpper(), (int)musicNote.Modifier, musicNote.Octave, (MusicalSymbolDuration)musicNote.Duration, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single });
-
-                        musicalSymbols.Add(note);
-                    }
-                    musicalSymbols.Add(new Barline());
-
-                }
+                staff.Accept(this);
             }
-            return musicalSymbols;
+            return _symbols;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
+        }
+
+        public void Visit(Staff staff)
+        {
+            var clef = new Clef(ClefType.GClef, 2);
+            _symbols.Add(clef);
+            _symbols.Add(new TimeSignature(TimeSignatureType.Numbers, (uint)staff.Rhythm.Item1, (uint)staff.Rhythm.Item2));
+            foreach (var child in staff.Children)
+            {
+                child.Accept(this);
+            }
+        }
+
+        public void Visit(Bar bar)
+        {
+            foreach (var musicNote in bar.MusicNotes)
+            {
+                if (musicNote.Tone == Tone.Silent)
+                {
+                    _symbols.Add(new Rest((MusicalSymbolDuration)musicNote.Duration));
+                    continue;
+                }
+                musicNote.Duration = 1 / musicNote.Duration;
+                var note = new Note(musicNote.Tone.ToString().ToUpper(), (int)musicNote.Modifier, musicNote.Octave, (MusicalSymbolDuration)musicNote.Duration, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single });
+
+                _symbols.Add(note);
+            }
+            _symbols.Add(new Barline());
         }
     }
 }
