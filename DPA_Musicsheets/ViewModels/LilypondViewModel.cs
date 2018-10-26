@@ -12,6 +12,7 @@ using DPA_Musicsheets.LilyPondEditor.Memento;
 using DPA_Musicsheets.Views;
 using DPA_Musicsheets.LilyPondEditor.Shortcuts;
 using DPA_Musicsheets.LilyPondEditor.Command.InsertCommand;
+using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -21,6 +22,8 @@ namespace DPA_Musicsheets.ViewModels
         private MainViewModel _mainViewModel { get; set; }
 
         private Caretaker _caretaker;
+
+        public Song song;
 
         private ShortcutListener shortcutListner;
        

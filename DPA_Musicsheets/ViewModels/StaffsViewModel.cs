@@ -44,5 +44,6 @@ namespace DPA_Musicsheets.ViewModels
             var args = eventsArgs as SongLoadedEventsArgs;
             Song = args?.Song;
         }
+        
     }
 }
