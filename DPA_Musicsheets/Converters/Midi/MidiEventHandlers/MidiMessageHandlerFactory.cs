@@ -53,6 +53,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
         private IMidiMessageHandler CreateChannelMessageHandler(IMidiMessage channelMessage)
         {
             var message = channelMessage as ChannelMessage;
+            Console.WriteLine($"{message.Command}; {message.MidiChannel}; {message.ToString()}");
             if (message != null && channelHandlers.ContainsKey(message.Command))
             {
                 return channelHandlers[message.Command];

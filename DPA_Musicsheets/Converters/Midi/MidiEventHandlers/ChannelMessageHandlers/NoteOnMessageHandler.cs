@@ -10,7 +10,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.ChannelMessageHandle
 {
     public class NoteOnMessageHandler : ChannelMessageHandler
     {
-        protected override void HandleChannelMessage(MidiConverterContext context, ChannelMessage message)
+        protected override void HandleChannelMessage(MidiEventSequencerContext context, ChannelMessage message)
         {
             if (message.Data2 > 0) // Data2 = loudness
             {

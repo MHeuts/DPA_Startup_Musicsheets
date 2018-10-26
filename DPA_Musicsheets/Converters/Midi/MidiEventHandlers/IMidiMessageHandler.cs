@@ -9,6 +9,6 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
 {
     public interface IMidiMessageHandler
     {
-        void HandleMessage(MidiConverterContext context, IMidiMessage message);
+        void HandleMessage(MidiEventSequencerContext context, IMidiMessage message);
     }
 }

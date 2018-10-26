@@ -114,6 +114,7 @@
     <Compile Include="Converters\Midi\MidiEventHandlers\MetaMessageHandlers\TempoMessageHandler.cs" />
     <Compile Include="Converters\Midi\MidiEventHandlers\MetaMessageHandlers\TimeSignatureMessageHandler.cs" />
     <Compile Include="Converters\Midi\MidiEventHandlers\MidiMessageHandlerFactory.cs" />
+    <Compile Include="Converters\Midi\MidiEventSequencer.cs" />
     <Compile Include="IO\IMusicFileHandler.cs" />
     <Compile Include="BaseCommand.cs" />
     <Compile Include="Converters\StaffConverter.cs" />
@@ -260,9 +261,7 @@
     <Content Include="Files\Eenvoudige voorbeeldfiles\Rusten.ly" />
     <Content Include="Files\Eenvoudige voorbeeldfiles\Standaard_noten.ly" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Converters\LilyPond\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

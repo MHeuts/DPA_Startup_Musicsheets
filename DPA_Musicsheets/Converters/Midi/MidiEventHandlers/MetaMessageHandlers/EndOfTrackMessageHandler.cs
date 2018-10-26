@@ -9,9 +9,9 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.MetaMessageHandlers
 {
     public class EndOfTrackMessageHandler : MetaMessageHandler
     {
-        protected override void HandleMetaMessage(MidiConverterContext context, MetaMessage message)
+        protected override void HandleMetaMessage(MidiEventSequencerContext context, MetaMessage message)
         {
-            // TODO: Figure out what to do here
+            // TODO: Figure out what to do here?
             //throw new NotImplementedException();
         }
     }

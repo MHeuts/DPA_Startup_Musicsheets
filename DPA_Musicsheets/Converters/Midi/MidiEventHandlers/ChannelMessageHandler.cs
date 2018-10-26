@@ -9,7 +9,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
 {
     public abstract class ChannelMessageHandler : IMidiMessageHandler
     {
-        public void HandleMessage(MidiConverterContext context, IMidiMessage message)
+        public void HandleMessage(MidiEventSequencerContext context, IMidiMessage message)
         {
             var channelMessage = message as ChannelMessage;
             if(channelMessage != null)
@@ -18,6 +18,6 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
             }
         }
 
-        protected abstract void HandleChannelMessage(MidiConverterContext context, ChannelMessage message);
+        protected abstract void HandleChannelMessage(MidiEventSequencerContext context, ChannelMessage message);
     }
 }

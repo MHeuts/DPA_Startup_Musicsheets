@@ -9,7 +9,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
 {
     public abstract class MetaMessageHandler : IMidiMessageHandler
     {
-        public void HandleMessage(MidiConverterContext context, IMidiMessage message)
+        public void HandleMessage(MidiEventSequencerContext context, IMidiMessage message)
         {
             var metaMessage = message as MetaMessage;
             if(metaMessage != null)
@@ -18,6 +18,6 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
             }
         }
 
-        protected abstract void HandleMetaMessage(MidiConverterContext context, MetaMessage message);
+        protected abstract void HandleMetaMessage(MidiEventSequencerContext context, MetaMessage message);
     }
 }
