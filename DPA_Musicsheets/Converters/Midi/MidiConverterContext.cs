@@ -28,6 +28,7 @@ namespace DPA_Musicsheets.Converters.Midi
         public MusicNote CurrentNote { get; set; }
         public NoteFactory NoteFactory { get; }
         public MidiMessageHandlerFactory MidiMessageHandlerFactory { get; }
-        public Track Track { get; set; }
+        public Track MetaTrack { get; set; }
+        public Track InstrumentTrack { get; set; }
     }
 }

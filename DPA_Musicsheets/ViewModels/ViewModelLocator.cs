@@ -22,23 +22,24 @@ namespace DPA_Musicsheets.ViewModels
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LilypondViewModel>();
-            SimpleIoc.Default.Register<StaffsViewModel>();
+            SimpleIoc.Default.Register<Staffs>();
             SimpleIoc.Default.Register<MidiPlayerViewModel>();
 
             SimpleIoc.Default.Register<MusicFileManager>();
             SimpleIoc.Default.Register<NoteFactory>();
             SimpleIoc.Default.Register<MidiMessageHandlerFactory>();
             SimpleIoc.Default.Register<MidiConverter>();
+            SimpleIoc.Default.Register<MusicPlayer>();
         }
 
         public MainViewModel MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();
         public LilypondViewModel LilypondViewModel => ServiceLocator.Current.GetInstance<LilypondViewModel>();
-        public StaffsViewModel StaffsViewModel => ServiceLocator.Current.GetInstance<StaffsViewModel>();
+        public Staffs StaffsViewModel => ServiceLocator.Current.GetInstance<Staffs>();
         public MidiPlayerViewModel MidiPlayerViewModel => ServiceLocator.Current.GetInstance<MidiPlayerViewModel>();
 
         public static void Cleanup()
         {
-            ServiceLocator.Current.GetInstance<MidiPlayerViewModel>().Cleanup();
+            ServiceLocator.Current.GetInstance<MusicPlayer>().Cleanup();
         }
     }
 }

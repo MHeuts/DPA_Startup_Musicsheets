@@ -36,7 +36,6 @@ namespace DPA_Musicsheets.Managers
 
         public MainViewModel MainViewModel { get; set; }
         public LilypondViewModel LilypondViewModel { get; set; }
-        public MidiPlayerViewModel MidiPlayerViewModel { get; set; }
 
         /// <summary>
         /// Opens a file.
@@ -47,16 +46,7 @@ namespace DPA_Musicsheets.Managers
         /// <param name="fileName"></param>
         public void OpenFile(string fileName)
         {
-            if (Path.GetExtension(fileName).EndsWith(".mid"))
-            {
-                MidiSequence = new Sequence();
-                MidiSequence.Load(fileName);
-
-                MidiPlayerViewModel.MidiSequence = MidiSequence;
-                this.LilypondText = LoadMidiIntoLilypond(MidiSequence);
-                this.LilypondViewModel.LilypondTextLoaded(this.LilypondText);
-            }
-            else if (Path.GetExtension(fileName).EndsWith(".ly"))
+            if (Path.GetExtension(fileName).EndsWith(".ly"))
             {
                 StringBuilder sb = new StringBuilder();
                 foreach (var line in File.ReadAllLines(fileName))
@@ -91,7 +81,6 @@ namespace DPA_Musicsheets.Managers
             WPFStaffs.AddRange(GetStaffsFromTokens(tokens));
 
             MidiSequence = GetSequenceFromWPFStaffs();
-            MidiPlayerViewModel.MidiSequence = MidiSequence;
         }
 
         #region Midi loading (loads midi to lilypond)

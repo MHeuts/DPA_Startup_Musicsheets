@@ -17,7 +17,7 @@ using System.Windows.Threading;
 
 namespace DPA_Musicsheets.ViewModels
 {
-    public class StaffsViewModel : ViewModelBase
+    public class Staffs : ViewModelBase
     {
         private Staff _song;
         public Staff Song
@@ -34,7 +34,7 @@ namespace DPA_Musicsheets.ViewModels
         /// Constructor
         /// </summary>
         /// <param name="musicLoader">We need the musicloader so it can set our staffs.</param>
-        public StaffsViewModel(MusicFileManager fileManager)
+        public Staffs(MusicFileManager fileManager)
         {
             fileManager.SongLoaded += this.OnSongLoaded;
         }
