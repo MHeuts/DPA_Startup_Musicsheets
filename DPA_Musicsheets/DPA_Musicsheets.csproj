@@ -124,12 +124,14 @@
     <Compile Include="LilyPondEditor\Command\InsertCommand\InsertCleffCommand.cs" />
     <Compile Include="LilyPondEditor\Command\InsertCommand\InsertCommand.cs" />
     <Compile Include="LilyPondEditor\Command\InsertCommand\InsertSpeedCommand.cs" />
+    <Compile Include="Shortcut\Command\FileCommand\FileCommand.cs" />
+    <Compile Include="Shortcut\Command\FileCommand\SaveAsLilyCommand.cs" />
     <Compile Include="IO\MusicFileManager.cs" />
     <Compile Include="IO\SongLoadedEventsArgs.cs" />
     <Compile Include="LilyPondEditor\Memento\Caretaker.cs" />
     <Compile Include="LilyPondEditor\Memento\Memento.cs" />
-    <Compile Include="LilyPondEditor\Shortcut\Shortcut.cs" />
-    <Compile Include="LilyPondEditor\Shortcut\ShortcutListener.cs" />
+    <Compile Include="Shortcut\Shortcut.cs" />
+    <Compile Include="Shortcut\ShortcutListener.cs" />
     <Compile Include="IO\MidiFileHandler.cs" />
     <Compile Include="Managers\MidiToLilyHelper.cs" />
     <Compile Include="Managers\MusicLoader.cs" />

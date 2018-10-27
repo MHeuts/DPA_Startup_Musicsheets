@@ -37,7 +37,13 @@ namespace DPA_Musicsheets.Converters.LilyPond
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            var song = new Staff();
+            var lilyText = value as string;
+            if (lilyText != null){
+
+            }
+
+            return song;
         }
 
         public void Visit(Staff staff)
