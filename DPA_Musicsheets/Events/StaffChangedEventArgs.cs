@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DPA_Musicsheets.IO
+namespace DPA_Musicsheets.Events
 {
-    public class SongLoadedEventsArgs : EventArgs
+    public class StaffChangedEventArgs : EventArgs
     {
-        public Staff Song { get; set; }
+        public Staff Staff { get; set; }
     }
 }

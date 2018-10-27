@@ -1,13 +1,12 @@
-﻿using DPA_Musicsheets.Models;
+﻿using DPA_Musicsheets.Converters.Midi.MidiEventHandlers;
+using DPA_Musicsheets.Factories;
+using DPA_Musicsheets.Models;
+using Sanford.Multimedia.Midi;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using Sanford.Multimedia.Midi;
-using DPA_Musicsheets.Converters.Midi.MidiEventHandlers;
 
 namespace DPA_Musicsheets.Converters.Midi
 {
@@ -56,6 +55,8 @@ namespace DPA_Musicsheets.Converters.Midi
             Staff = new Staff();
             Bar = new Bar();
             StartedNoteIsClosed = true;
+            PreviousNoteAbsoluteTicks = 0;
+            PercentageOfBarReached = 0;
 
             // Single instrument support only
             var track = Sequence[0];
@@ -134,7 +135,8 @@ namespace DPA_Musicsheets.Converters.Midi
         {
             byte[] timeSignature = new byte[4];
             timeSignature[0] = (byte)rhythm.Item1;
-            timeSignature[1] = (byte)Math.Pow(rhythm.Item2, -2);
+            var log = Math.Sqrt(rhythm.Item2);
+            timeSignature[1] = (byte)log;
             MetaTrack.Insert(PreviousNoteAbsoluteTicks, new MetaMessage(MetaType.TimeSignature, timeSignature));
         }
     }

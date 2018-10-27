@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DPA_Musicsheets.Models;
+﻿using DPA_Musicsheets.Models;
 using Sanford.Multimedia.Midi;
+using System.Linq;
 
 namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.MetaMessageHandlers
 {

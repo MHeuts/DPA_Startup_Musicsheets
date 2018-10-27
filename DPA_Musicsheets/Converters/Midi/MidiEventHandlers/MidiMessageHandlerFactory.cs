@@ -3,9 +3,6 @@ using DPA_Musicsheets.Converters.Midi.MidiEventHandlers.MetaMessageHandlers;
 using Sanford.Multimedia.Midi;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
 {
@@ -41,9 +38,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
 
         private IMidiMessageHandler CreateMetaMessageHandler(IMidiMessage metaMessage)
         {
-            var message = metaMessage as MetaMessage;
-            Console.WriteLine($"{message.MessageType}; {message.MetaType}; {message.ToString()}");
-            if (message != null && metaHandlers.ContainsKey(message.MetaType))
+            if (metaMessage is MetaMessage message && metaHandlers.ContainsKey(message.MetaType))
             {
                 return metaHandlers[message.MetaType];
             }
@@ -52,8 +47,7 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
 
         private IMidiMessageHandler CreateChannelMessageHandler(IMidiMessage channelMessage)
         {
-            var message = channelMessage as ChannelMessage;
-            if (message != null && channelHandlers.ContainsKey(message.Command))
+            if (channelMessage is ChannelMessage message && channelHandlers.ContainsKey(message.Command))
             {
                 return channelHandlers[message.Command];
             }

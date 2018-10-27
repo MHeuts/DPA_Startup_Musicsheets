@@ -1,11 +1,7 @@
 ﻿using DPA_Musicsheets.Converters.Midi.MidiEventHandlers;
+using DPA_Musicsheets.Factories;
 using DPA_Musicsheets.Models;
 using Sanford.Multimedia.Midi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Converters.Midi
 {
