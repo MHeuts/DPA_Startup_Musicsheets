@@ -13,6 +13,7 @@ namespace DPA_Musicsheets.Models
             Children = new List<StaffElement>();
         }
         
+        public Staff Parent { get; set; }
         public List<StaffElement> Children { get; private set; }
         public Tuple<int, int> Rhythm { get; set; }
         public int Bpm { get; set; }

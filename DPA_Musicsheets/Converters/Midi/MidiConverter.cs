@@ -55,6 +55,7 @@ namespace DPA_Musicsheets.Converters.Midi
 
             Staff = new Staff();
             Bar = new Bar();
+            StartedNoteIsClosed = true;
 
             // Single instrument support only
             var track = Sequence[0];
@@ -66,6 +67,11 @@ namespace DPA_Musicsheets.Converters.Midi
                 IMidiMessage midiMessage = midiEvent.MidiMessage;
                 var handler = MidiMessageHandlerFactory.CreateForMessage(midiMessage);
                 handler?.HandleMessage(this, midiMessage);
+            }
+
+            while (Staff.Parent != null)
+            {
+                Staff = Staff.Parent;
             }
 
             return Staff;
@@ -87,26 +93,29 @@ namespace DPA_Musicsheets.Converters.Midi
         {
             foreach(var note in bar.MusicNotes)
             {
-                // Calculate duration
-                double absoluteLength = 1.0 / (1.0 / note.Duration);
-                if (note.Dot)
+                if (note.Tone != Tone.Silent)
                 {
-                    absoluteLength += (absoluteLength / 2.0);
+                    // Calculate duration
+                    double absoluteLength = 1.0 / (1.0 / note.Duration);
+                    if (note.Dot)
+                    {
+                        absoluteLength += (absoluteLength / 2.0);
+                    }
+
+                    double relationToQuartNote = Staff.Rhythm.Item1 / 4.0;
+                    double percentageOfBeatNote = (1.0 / Staff.Rhythm.Item1) / absoluteLength;
+                    double deltaTicks = (Sequence.Division / relationToQuartNote) / percentageOfBeatNote;
+
+                    // TODO: have this work with different Clef
+                    List<string> notesOrderWithCrosses = new List<string>() { "c", "cis", "d", "dis", "e", "f", "fis", "g", "gis", "a", "ais", "b" };
+                    // Calculate height
+                    int noteHeight = notesOrderWithCrosses.IndexOf(note.Tone.ToString().ToLower()) + ((note.Octave + 1) * 12);
+                    noteHeight += (int)note.Modifier;
+                    InstrumentTrack.Insert(PreviousNoteAbsoluteTicks, new ChannelMessage(ChannelCommand.NoteOn, 1, noteHeight, 90)); // Data2 = volume
+
+                    PreviousNoteAbsoluteTicks += (int)deltaTicks;
+                    InstrumentTrack.Insert(PreviousNoteAbsoluteTicks, new ChannelMessage(ChannelCommand.NoteOn, 1, noteHeight, 0)); // Data2 = volume
                 }
-
-                double relationToQuartNote = Staff.Rhythm.Item1 / 4.0;
-                double percentageOfBeatNote = (1.0 / Staff.Rhythm.Item1) / absoluteLength;
-                double deltaTicks = (Sequence.Division / relationToQuartNote) / percentageOfBeatNote;
-
-                // TODO: have this work with different Clef
-                List<string> notesOrderWithCrosses = new List<string>() { "c", "cis", "d", "dis", "e", "f", "fis", "g", "gis", "a", "ais", "b" };
-                // Calculate height
-                int noteHeight = notesOrderWithCrosses.IndexOf(note.Tone.ToString().ToLower()) + ((note.Octave + 1) * 12);
-                noteHeight += (int)note.Modifier;
-                InstrumentTrack.Insert(PreviousNoteAbsoluteTicks, new ChannelMessage(ChannelCommand.NoteOn, 1, noteHeight, 90)); // Data2 = volume
-
-                PreviousNoteAbsoluteTicks += (int)deltaTicks;
-                InstrumentTrack.Insert(PreviousNoteAbsoluteTicks, new ChannelMessage(ChannelCommand.NoteOn, 1, noteHeight, 0)); // Data2 = volume
             }
         }
 
