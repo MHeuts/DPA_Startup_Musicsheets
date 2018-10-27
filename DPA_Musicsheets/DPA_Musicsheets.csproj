@@ -119,11 +119,6 @@
     <Compile Include="Converters\StaffConverter.cs" />
     <Compile Include="IO\MusicPlayer.cs" />
     <Compile Include="IO\MusicPlayerStatusChangedEventArgs.cs" />
-    <Compile Include="LilyPondEditor\Command\FileCommand\FileCommand.cs" />
-    <Compile Include="LilyPondEditor\Command\FileCommand\SaveAsLilyCommand.cs" />
-    <Compile Include="LilyPondEditor\Command\InsertCommand\InsertCleffCommand.cs" />
-    <Compile Include="LilyPondEditor\Command\InsertCommand\InsertCommand.cs" />
-    <Compile Include="LilyPondEditor\Command\InsertCommand\InsertSpeedCommand.cs" />
     <Compile Include="Shortcut\Command\FileCommand\FileCommand.cs" />
     <Compile Include="Shortcut\Command\FileCommand\SaveAsLilyCommand.cs" />
     <Compile Include="IO\MusicFileManager.cs" />
