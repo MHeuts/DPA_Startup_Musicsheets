@@ -17,7 +17,8 @@ namespace DPA_Musicsheets.IO
         public MusicFileManager()
         {
             _handlers = new List<IMusicFileHandler> {
-                new MidiFileHandler()
+                new MidiFileHandler(),
+                new LilypondFileHandler()
             };
         }
 

@@ -20,6 +20,39 @@ namespace DPA_Musicsheets.Models
             return note;
         }
 
+        public MusicNote Create(string LilyNote)
+        {
+            MusicNote note = new MusicNote
+            {
+                Octave = 0
+            };
+
+            foreach (char c in LilyNote)
+            {
+                if (c == '\'')
+                    note.Octave++;
+                else if (c == ',')
+                    note.Octave--;
+            }
+
+            note.Tone = getNote(LilyNote[0]);
+            note.Modifier = GetModifier(LilyNote.Substring(1, 2));
+            note.Duration = GetDuration(LilyNote);
+            if (LilyNote[LilyNote.Length] == '.')
+                note.Dot = true;
+           
+            return note;
+        }
+
+        private double GetDuration(string lilyNote)
+        {
+            foreach (char c in lilyNote)
+                if(char.IsDigit(c))
+                    return 1/Convert.ToInt16(c);
+
+            return 0;
+        }
+
         public  MusicNote CreateRest()
         {
             MusicNote note = new MusicNote
@@ -65,6 +98,41 @@ namespace DPA_Musicsheets.Models
                     return Tone.B;
             }
             return Tone.Silent;
+        }
+
+        public Tone getNote(char tone)
+        {
+            switch (tone)
+            {
+                case 'a':
+                    return Tone.A;
+                case 'b':
+                    return Tone.B;
+                case 'c':
+                    return Tone.C;
+                case 'd':
+                    return Tone.D;
+                case 'e':
+                    return Tone.E;
+                case 'f':
+                    return Tone.F;
+                case 'g':
+                    return Tone.G;
+            }
+            return Tone.Silent;
+        }
+
+        public Modifier GetModifier(string modifier)
+        {
+            switch (modifier)
+            {
+                case "fi":
+                    return Modifier.Flat;
+                case "gi":
+                    return Modifier.Sharp;
+            }
+
+            return Modifier.None;
         }
     }
 }

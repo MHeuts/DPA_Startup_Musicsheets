@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DPA_Musicsheets", "DPA_Musicsheets\DPA_Musicsheets.csproj", "{78BC0C32-8B72-44D2-BA4D-20E3A0A046D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestDPA", "UnitTestDPA\UnitTestDPA.csproj", "{0CDA936D-8EE0-420F-8F6C-222B767CB7E0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,8 +17,15 @@ Global
 		{78BC0C32-8B72-44D2-BA4D-20E3A0A046D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78BC0C32-8B72-44D2-BA4D-20E3A0A046D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78BC0C32-8B72-44D2-BA4D-20E3A0A046D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CDA936D-8EE0-420F-8F6C-222B767CB7E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CDA936D-8EE0-420F-8F6C-222B767CB7E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CDA936D-8EE0-420F-8F6C-222B767CB7E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CDA936D-8EE0-420F-8F6C-222B767CB7E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2DE0D3BD-7D49-4B02-AAE7-8CC8AA49C772}
 	EndGlobalSection
 EndGlobal
