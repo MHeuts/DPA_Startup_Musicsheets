@@ -34,6 +34,7 @@ namespace DPA_Musicsheets.Converters.Midi
             if (song == null) return null;
 
             Sequence = new Sequence();
+            PreviousNoteAbsoluteTicks = 0;
             MetaTrack = new Track();
             InstrumentTrack = new Track();
             Sequence.Add(MetaTrack);
