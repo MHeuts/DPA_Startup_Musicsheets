@@ -162,13 +162,14 @@ namespace DPA_Musicsheets.ViewModels
                         _waitingForRender = false;
 
                         Song = _converter.ConvertBack(_text);
-                        _caretaker.Save(_song);
+                        _caretaker.Save(_text);
                         
                         if (Song == null)
                         {
                             MessengerInstance.Send<EditorStatusMessage>(new EditorStatusMessage("Invalid lilypond..."));
                         } else
                         {
+                            _musicManager.Staff = Song;
                             MessengerInstance.Send<EditorStatusMessage>(new EditorStatusMessage(""));
                         }
                     }
