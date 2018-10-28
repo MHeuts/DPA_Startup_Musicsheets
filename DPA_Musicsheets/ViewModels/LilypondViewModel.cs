@@ -71,30 +71,38 @@ namespace DPA_Musicsheets.ViewModels
             _text = "Your lilypond text will appear here.";
 
             ShortcutListener = new ShortcutListener();
-            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.C }, () =>
+            SetupShortcuts();
+        }
+
+        private void SetupShortcuts()
+        {
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.C }, new RelayCommand(() =>
             {
                 TextBox.InsertAtCaretIndex("\\clef treble");
-            });
-            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.S }, () =>
+            }));
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.S }, new RelayCommand(() =>
             {
                 TextBox.InsertAtCaretIndex("\\tempo 4=120");
-            });
-            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D4}, () =>
+            }));
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D4 }, new RelayCommand(() =>
             {
                 TextBox.InsertAtCaretIndex("\\time 4/4");
-            });
-            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D3 }, () =>
+            }));
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D3 }, new RelayCommand(() =>
             {
                 TextBox.InsertAtCaretIndex("\\time 3/4");
-            });
-            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D6 }, () =>
+            }));
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.D6 }, new RelayCommand(() =>
             {
                 TextBox.InsertAtCaretIndex("\\time 6/8");
-            });
-            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.T }, () =>
+            }));
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftAlt, Key.T }, new RelayCommand(() =>
             {
                 TextBox.InsertAtCaretIndex("\\time 4/4");
-            });
+            }));
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.Z }, UndoCommand);
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.Y }, RedoCommand);
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.S }, SaveAsCommand);
         }
 
         public void LilypondTextLoaded(string text)

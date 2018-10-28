@@ -7,24 +7,14 @@ namespace DPA_Musicsheets.IO.FileHandlers
     public abstract class MusicFileHandler
     {
 
-        public MusicFileHandler()
+        public MusicFileHandler(MusicFileHandler next = null)
         {
             Extensions = new List<string>();
+            Next = next;
         }
 
         public List<string> Extensions { get; protected set; }
         public MusicFileHandler Next { get; protected set; }
-
-        public void AddHandler(MusicFileHandler handler)
-        {
-            if (Next == null)
-            {
-                Next = handler;
-            } else
-            {
-                Next.AddHandler(handler);
-            }
-        }
 
         public Staff LoadFile(string fileName)
         {

@@ -5,23 +5,24 @@ namespace DPA_Musicsheets.LilyPondEditor.Shortcuts
 {
     public class ShortcutListener
     {
-        private Shortcut shortcut;
+        public Shortcut Shortcut { get; private set; }
 
-        public void AddShortcut(Key[] keys, Action command)
+        public void AddShortcut(Key[] keys, ICommand command)
         {
-            if (shortcut != null)
+            if (Shortcut != null)
             {
-                var newShortcut = new Shortcut(keys, command, shortcut);
-                shortcut = newShortcut;
+                var newShortcut = new Shortcut(keys, command, Shortcut);
+                Shortcut = newShortcut;
             }
             else
-                shortcut = new Shortcut(keys, command);
+                Shortcut = new Shortcut(keys, command);
         }
 
-        public void Listen()
+        public bool Listen()
         {
-            if (shortcut != null)
-                shortcut.Execute();
+            if (Shortcut != null)
+                return Shortcut.Execute();
+            return false;
         }
     }
 }

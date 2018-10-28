@@ -5,32 +5,36 @@ namespace DPA_Musicsheets.LilyPondEditor.Shortcuts
 {
     public class Shortcut
     {
-        private Key[] keys;
-        private Shortcut next;
-        private Action command;
+        private ICommand Command { get; set; }
+        private Key[] Keys { get; set; }
+        private Shortcut Next { get; set; }
 
-        public Shortcut(Key[] keys, Action command, Shortcut next = null)
+        public Shortcut(Key[] keys, ICommand command, Shortcut next = null)
         {
-            this.keys = keys;
-            this.command = command;
-            this.next = next;
+            this.Keys = keys;
+            this.Command = command;
+            this.Next = next;
         }
 
-        private bool correctShortcut()
+        private bool HandlesShortcut()
         {
-            foreach (var key in keys)
+            foreach (var key in Keys)
                 if (!Keyboard.IsKeyDown(key))
                     return false;
 
             return true;
         }
 
-        public void Execute()
+        public bool Execute()
         {
-            if (correctShortcut())
-                command();
-            else if (next != null)
-                next.Execute();
+            if (HandlesShortcut() && Command.CanExecute(null))
+            {
+                Command.Execute(null);
+                return true;
+            }
+            else if (Next != null)
+                return Next.Execute();
+            return false;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace DPA_Musicsheets.IO.FileHandlers
     {
         private MidiConverter _converter;
 
-        public MidiFileHandler(MidiConverter converter)
+        public MidiFileHandler(MidiConverter converter, MusicFileHandler next = null) : base(next)
         {
             _converter = converter;
             Extensions.Add(".midi");

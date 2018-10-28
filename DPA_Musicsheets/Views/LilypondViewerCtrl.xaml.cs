@@ -41,7 +41,7 @@ namespace DPA_Musicsheets.Views
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
-            shortcutListener.Listen();
+            e.Handled = shortcutListener.Listen();
         }
 
         public void InsertAtCaretIndex(string text)

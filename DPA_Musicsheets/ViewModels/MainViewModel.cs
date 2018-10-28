@@ -13,6 +13,11 @@ namespace DPA_Musicsheets.ViewModels
     public class MainViewModel : ViewModelBase
     {
         private string _fileName;
+        private readonly ShortcutListener _shortcutListener;
+        private MusicManager _musicManager;
+
+                public ShortcutListener ShortcutListener => _shortcutListener;
+
         public string FileName
         {
             get
@@ -37,18 +42,20 @@ namespace DPA_Musicsheets.ViewModels
             set { _currentState = value; RaisePropertyChanged(() => CurrentState); }
         }
 
-        public Staff Song { get; set; }
-        private ShortcutListener shortcutListener;
-
-        //private MusicLoader _musicLoader;
-        //private MidiFileParser _midiFileParser;
-        private MusicManager _musicManager;
+        public Staff Song { get; private set; }
 
         public MainViewModel(MusicManager musicManager)
         {
-            // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer?
             _musicManager = musicManager;
             FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
+            // Not a dependency as every VM needs it's own for context awareness
+            _shortcutListener = new ShortcutListener();
+            SetShortCuts();
+        }
+
+        private void SetShortCuts()
+        {
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.O }, OpenFileCommand);
         }
 
         public ICommand OpenFileCommand => new RelayCommand(() =>
@@ -74,24 +81,26 @@ namespace DPA_Musicsheets.ViewModels
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys
-        public ICommand OnLostFocusCommand => new RelayCommand(() =>
-        {
-            Console.WriteLine("Maingrid Lost focus");
-        });
+        //public ICommand OnLostFocusCommand => new RelayCommand(() =>
+        //{
+        //    Console.WriteLine("Maingrid Lost focus");
+        //});
 
-        public ICommand OnKeyDownCommand => new RelayCommand<KeyEventArgs>((e) =>
-        {
-        });
+        //public ICommand OnKeyDownCommand => new RelayCommand<KeyEventArgs>((e) =>
+        //{
+        //    ShortcutListener.Listen();
+        //});
 
-        public ICommand OnKeyUpCommand => new RelayCommand(() =>
-        {
-            Console.WriteLine("Key Up");
-        });
+        //public ICommand OnKeyUpCommand => new RelayCommand(() =>
+        //{
+        //    Console.WriteLine("Key Up");
+        //});
 
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>
         {
             ViewModelLocator.Cleanup();
         });
+
         #endregion Focus and key commands, these can be used for implementing hotkeys
     }
 }

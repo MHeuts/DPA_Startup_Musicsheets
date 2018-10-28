@@ -21,6 +21,7 @@ using System.Windows.Shapes;
 using DPA_Musicsheets;
 using PSAMWPFControlLibrary;
 using DPA_Musicsheets.ViewModels;
+using DPA_Musicsheets.LilyPondEditor.Shortcuts;
 
 namespace DPA_Musicsheets
 {
@@ -29,9 +30,18 @@ namespace DPA_Musicsheets
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ShortcutListener _shortcutListener;
+
         public MainWindow()
         {
             InitializeComponent();
+            _shortcutListener = (DataContext as MainViewModel).ShortcutListener;
+        }
+
+        protected override void OnKeyDown(KeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            e.Handled = _shortcutListener.Listen();
         }
     }
 }

@@ -41,8 +41,8 @@ namespace DPA_Musicsheets.ViewModels
             // File handler chain
             SimpleIoc.Default.Register<MusicFileHandler>(() =>
             {
-                MusicFileHandler chain = new MidiFileHandler(SimpleIoc.Default.GetInstance<MidiConverter>());
-                chain.AddHandler(new LilypondFileHandler(SimpleIoc.Default.GetInstance<LilyPondConverter>()));
+                MusicFileHandler chain = new LilypondFileHandler(SimpleIoc.Default.GetInstance<LilyPondConverter>());
+                chain = new MidiFileHandler(SimpleIoc.Default.GetInstance<MidiConverter>(), chain);
                 return chain;
             });
         }

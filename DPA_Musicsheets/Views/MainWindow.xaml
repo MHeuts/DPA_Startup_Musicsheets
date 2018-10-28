@@ -22,7 +22,7 @@
             <ColumnDefinition Width="350" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <i:Interaction.Triggers>
+        <!--<i:Interaction.Triggers>
             <i:EventTrigger EventName="LostFocus" >
                 <command:EventToCommand Command="{Binding OnLostFocusCommand}" PassEventArgsToCommand="True"  />
             </i:EventTrigger>
@@ -32,7 +32,7 @@
             <i:EventTrigger EventName="KeyUp" >
                 <command:EventToCommand Command="{Binding OnKeyUpCommand}" PassEventArgsToCommand="True"  />
             </i:EventTrigger>
-        </i:Interaction.Triggers>
+        </i:Interaction.Triggers>-->
         <StackPanel Orientation="Horizontal" Grid.Row="0" Grid.ColumnSpan="2">
             <Button Command="{Binding OpenFileCommand}" Content="Open" Margin="5" Width="75"/>
             <TextBox IsReadOnly="True" TextWrapping="Wrap" Text="{Binding FileName}" Width="400" Margin="5"/>

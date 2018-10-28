@@ -114,13 +114,10 @@
     <Compile Include="Converters\Midi\MidiEventHandlers\MetaMessageHandlers\TimeSignatureMessageHandler.cs" />
     <Compile Include="Converters\Midi\MidiEventHandlers\MidiMessageHandlerFactory.cs" />
     <Compile Include="IO\FileHandlers\MusicFileHandler.cs" />
-    <Compile Include="BaseCommand.cs" />
     <Compile Include="Converters\StaffConverter.cs" />
     <Compile Include="IO\FileHandlers\LilypondFileHandler.cs" />
     <Compile Include="IO\MusicPlayer.cs" />
     <Compile Include="Events\MusicPlayerStatusChangedEventArgs.cs" />
-    <Compile Include="Shortcut\Command\FileCommand\FileCommand.cs" />
-    <Compile Include="Shortcut\Command\FileCommand\SaveAsLilyCommand.cs" />
     <Compile Include="Managers\MusicManager.cs" />
     <Compile Include="Events\StaffChangedEventArgs.cs" />
     <Compile Include="LilyPondEditor\Memento\Caretaker.cs" />
