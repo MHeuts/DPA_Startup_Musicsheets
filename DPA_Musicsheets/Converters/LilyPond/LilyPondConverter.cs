@@ -116,6 +116,10 @@ namespace DPA_Musicsheets.Converters.LilyPond
                     LilyText.Append("r");
                 else
                     LilyText.Append(note.Tone);
+                if (note.Octave == 5)
+                    LilyText.Append('\'');
+                else if (note.Octave == 3) 
+                    LilyText.Append(',');
                 if (note.Modifier == Modifier.Sharp)
                     LilyText.Append("is");
                 else if (note.Modifier == Modifier.Flat)

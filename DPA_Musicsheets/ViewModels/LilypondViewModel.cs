@@ -96,7 +96,7 @@ namespace DPA_Musicsheets.ViewModels
             Song = args?.Staff;
 
             LilypondText = _converter.Convert(_song);
-            _caretaker.Save(_song);
+            _caretaker.Save(_text);
             _textChangedByLoad = false;
         }
 
@@ -158,6 +158,7 @@ namespace DPA_Musicsheets.ViewModels
                 {
                     if ((DateTime.Now - _lastChange).TotalMilliseconds >= MILLISECONDS_BEFORE_CHANGE_HANDLED)
                     {
+                        var failed = false;
                         
                         _waitingForRender = false;
 
@@ -166,13 +167,17 @@ namespace DPA_Musicsheets.ViewModels
                         try
                         {
                             Song = _converter.ConvertBack(_text);
-                            _musicManager.Staff = Song;
                         }
                         catch (Exception e)
                         {
+                            failed = true;
                             _mainViewModel.CurrentState = "error";
                         }
-                        _caretaker.Save(_song);
+                        if (!failed)
+                        {
+                            _musicManager.Staff = Song;
+                            _caretaker.Save(_text);
+                        }
                         
                     }
                 }, TaskScheduler.FromCurrentSynchronizationContext()); // Request from main thread.
@@ -183,8 +188,7 @@ namespace DPA_Musicsheets.ViewModels
         public RelayCommand UndoCommand => new RelayCommand(() =>
         {
             _textChangedByLoad = true;
-            Song = _caretaker.Undo(_song);
-            LilypondText = _converter.Convert(Song);
+            LilypondText = _caretaker.Undo(_text);
             _textChangedByLoad = false;
             RedoCommand.RaiseCanExecuteChanged();
         }, () => _caretaker.CanUndo());
@@ -192,8 +196,7 @@ namespace DPA_Musicsheets.ViewModels
         public RelayCommand RedoCommand => new RelayCommand(() =>
         {
             _textChangedByLoad = true;
-            Song = _caretaker.Redo(_song);
-            LilypondText = _converter.Convert(Song);
+            LilypondText = _caretaker.Redo(_text);
             _textChangedByLoad = false;
             UndoCommand.RaiseCanExecuteChanged();
         }, () => _caretaker.CanRedo());
