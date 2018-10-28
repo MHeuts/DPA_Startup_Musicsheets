@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
@@ -36,9 +37,9 @@ namespace DPA_Musicsheets.Models
             }
 
             note.Tone = getNote(LilyNote[0]);
-            note.Modifier = GetModifier(LilyNote.Substring(1, 2));
+            note.Modifier = GetModifier(LilyNote);
             note.Duration = GetDuration(LilyNote);
-            if (LilyNote[LilyNote.Length] == '.')
+            if (LilyNote[LilyNote.Length -1] == '.')
                 note.Dot = true;
            
             return note;
@@ -46,11 +47,9 @@ namespace DPA_Musicsheets.Models
 
         private double GetDuration(string lilyNote)
         {
-            foreach (char c in lilyNote)
-                if(char.IsDigit(c))
-                    return 1/Convert.ToInt16(c);
+            var number = Regex.Match(lilyNote, @"\d+").Value;
 
-            return 0;
+            return 1 / double.Parse(number);
         }
 
         public  MusicNote CreateRest()
@@ -124,13 +123,10 @@ namespace DPA_Musicsheets.Models
 
         public Modifier GetModifier(string modifier)
         {
-            switch (modifier)
-            {
-                case "fi":
-                    return Modifier.Flat;
-                case "gi":
-                    return Modifier.Sharp;
-            }
+            if (modifier.Contains("fi"))
+                return Modifier.Flat;
+            else if (modifier.Contains("gi"))
+                return Modifier.Sharp;
 
             return Modifier.None;
         }
