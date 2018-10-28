@@ -163,15 +163,7 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand SaveAsCommand => new RelayCommand(() =>
         {
-            // Get supported extensions
-            var builder = new StringBuilder();
-            foreach (var extension in _musicManager.GetSupportedExtensions())
-            {
-                builder.Append($"*{extension};");
-            }
-            var supported = builder.ToString();
-
-            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = $"Supported files | {supported}" };
+            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = _musicManager.GetSupportedFilesString() };
             if (saveFileDialog.ShowDialog() == true)
             {
                 // TODO: check for success?

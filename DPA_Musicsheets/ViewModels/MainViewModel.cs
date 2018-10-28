@@ -4,8 +4,6 @@ using DPA_Musicsheets.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
-using System;
-using System.Text;
 using System.Windows.Input;
 
 namespace DPA_Musicsheets.ViewModels
@@ -60,15 +58,7 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand OpenFileCommand => new RelayCommand(() =>
         {
-            // Get supported extensions
-            var builder = new StringBuilder();
-            foreach(var extension in _musicManager.GetSupportedExtensions())
-            {
-                builder.Append($"*{extension};");
-            }
-            var supported = builder.ToString();
-
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = $"Supported files | {supported}" };
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = _musicManager.GetSupportedFilesString() };
             if (openFileDialog.ShowDialog() == true)
             {
                 FileName = openFileDialog.FileName;

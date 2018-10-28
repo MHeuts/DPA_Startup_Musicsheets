@@ -1,4 +1,5 @@
 ﻿using DPA_Musicsheets.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -7,13 +8,15 @@ namespace DPA_Musicsheets.IO.FileHandlers
     public abstract class MusicFileHandler
     {
 
-        public MusicFileHandler(MusicFileHandler next = null)
+        public MusicFileHandler(string fileType, MusicFileHandler next = null)
         {
             Extensions = new List<string>();
             Next = next;
+            FileType = fileType;
         }
 
         public List<string> Extensions { get; protected set; }
+        public string FileType { get; protected set; }
         public MusicFileHandler Next { get; protected set; }
 
         public Staff LoadFile(string fileName)
@@ -50,12 +53,16 @@ namespace DPA_Musicsheets.IO.FileHandlers
             return Extensions.Contains(Path.GetExtension(filename));
         }
 
-        public List<string> GetAllExtensions()
+        public List<Tuple<string, List<string>>> GetSupportedFiles()
         {
-            var ext = new List<string>(Extensions);
+            var ext = new List<Tuple<string, List<string>>>
+            {
+                new Tuple<string, List<string>>(FileType, Extensions)
+            };
+
             if (Next != null)
             {
-                ext.AddRange(Next.Extensions);
+                ext.AddRange(Next.GetSupportedFiles());
             }
             return ext;
         }

@@ -4,6 +4,7 @@ using DPA_Musicsheets.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace DPA_Musicsheets.Managers
 {
@@ -44,9 +45,27 @@ namespace DPA_Musicsheets.Managers
             return _fileHandler.SaveFile(filename, Staff);
         }
 
-        public List<string> GetSupportedExtensions()
+        public string GetSupportedFilesString()
         {
-            return _fileHandler.GetAllExtensions();
+            var builder = new StringBuilder();
+            var supported = _fileHandler.GetSupportedFiles();
+            foreach (var filetype in supported)
+            {
+                builder.Append($"{filetype.Item1} (");
+                foreach (var extension in filetype.Item2)
+                {
+                    builder.Append($"*{extension} ");
+                }
+                builder.Append(")|");
+                foreach (var extension in filetype.Item2)
+                {
+                    builder.Append($"*{extension}");
+                    if (extension != filetype.Item2.Last()) builder.Append(";");
+                }
+                if (filetype != supported.Last()) builder.Append("|");
+            }
+
+            return builder.ToString();
         }
     }
 }
