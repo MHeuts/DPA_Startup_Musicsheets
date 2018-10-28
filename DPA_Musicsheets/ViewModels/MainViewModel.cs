@@ -1,5 +1,6 @@
 ﻿using DPA_Musicsheets.LilyPondEditor.Shortcuts;
 using DPA_Musicsheets.Managers;
+using DPA_Musicsheets.Messages;
 using DPA_Musicsheets.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
@@ -49,6 +50,8 @@ namespace DPA_Musicsheets.ViewModels
             // Not a dependency as every VM needs it's own for context awareness
             _shortcutListener = new ShortcutListener();
             SetShortCuts();
+
+            MessengerInstance.Register<EditorStatusMessage>(this, OnEditorStatusMessageReceived);
         }
 
         private void SetShortCuts()
@@ -86,9 +89,15 @@ namespace DPA_Musicsheets.ViewModels
         //    Console.WriteLine("Key Up");
         //});
 
+        private void OnEditorStatusMessageReceived(EditorStatusMessage message)
+        {
+            CurrentState = message.Status;
+        }
+
         public ICommand OnWindowClosingCommand => new RelayCommand(() =>
         {
             ViewModelLocator.Cleanup();
+            MessengerInstance.Unregister(this);
         });
 
         #endregion Focus and key commands, these can be used for implementing hotkeys

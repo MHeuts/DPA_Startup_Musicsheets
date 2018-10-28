@@ -122,6 +122,7 @@
     <Compile Include="Events\StaffChangedEventArgs.cs" />
     <Compile Include="LilyPondEditor\Memento\Caretaker.cs" />
     <Compile Include="LilyPondEditor\Memento\Memento.cs" />
+    <Compile Include="Messages\EditorStatusMessage.cs" />
     <Compile Include="Models\StaffBuilder.cs" />
     <Compile Include="Shortcut\Shortcut.cs" />
     <Compile Include="Shortcut\ShortcutListener.cs" />
@@ -257,7 +258,9 @@
     <Content Include="Files\Eenvoudige voorbeeldfiles\Rusten.ly" />
     <Content Include="Files\Eenvoudige voorbeeldfiles\Standaard_noten.ly" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="MessengerInstance\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

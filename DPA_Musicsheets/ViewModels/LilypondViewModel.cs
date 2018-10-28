@@ -4,6 +4,7 @@ using DPA_Musicsheets.IO.FileHandlers;
 using DPA_Musicsheets.LilyPondEditor.Memento;
 using DPA_Musicsheets.LilyPondEditor.Shortcuts;
 using DPA_Musicsheets.Managers;
+using DPA_Musicsheets.Messages;
 using DPA_Musicsheets.Models;
 using DPA_Musicsheets.Views;
 using GalaSoft.MvvmLight;
@@ -23,7 +24,6 @@ namespace DPA_Musicsheets.ViewModels
     {
         private MusicLoader _musicLoader;
         
-        private MainViewModel _mainViewModel { get; set; }
         private LilyPondConverter _converter;
 
         private Caretaker _caretaker;
@@ -70,7 +70,7 @@ namespace DPA_Musicsheets.ViewModels
         private static int MILLISECONDS_BEFORE_CHANGE_HANDLED = 1500;
         private bool _waitingForRender = false;
 
-        public LilypondViewModel(MusicManager musicManager, MainViewModel mainViewModel)
+        public LilypondViewModel(MusicManager musicManager)
         {
             // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer and viewmodels don't know each other?
             // And viewmodels don't 
@@ -80,7 +80,6 @@ namespace DPA_Musicsheets.ViewModels
 
             musicManager.StaffChanged += this.OnSongLoaded;
 
-            _mainViewModel = mainViewModel;
             //_musicLoader.LilypondViewModel = this;
             _text = "Your lilypond text will appear here.";
 
@@ -152,7 +151,7 @@ namespace DPA_Musicsheets.ViewModels
                 _waitingForRender = true;
                 _lastChange = DateTime.Now;
                
-                _mainViewModel.CurrentState = "Rendering...";
+                MessengerInstance.Send<EditorStatusMessage>(new EditorStatusMessage("Rendering..."));
 
                 Task.Delay(MILLISECONDS_BEFORE_CHANGE_HANDLED).ContinueWith((task) =>
                 {
@@ -164,8 +163,14 @@ namespace DPA_Musicsheets.ViewModels
 
                         Song = _converter.ConvertBack(_text);
                         _caretaker.Save(_song);
-
-                        _mainViewModel.CurrentState = "";
+                        
+                        if (Song == null)
+                        {
+                            MessengerInstance.Send<EditorStatusMessage>(new EditorStatusMessage("Invalid lilypond..."));
+                        } else
+                        {
+                            MessengerInstance.Send<EditorStatusMessage>(new EditorStatusMessage(""));
+                        }
                     }
                 }, TaskScheduler.FromCurrentSynchronizationContext()); // Request from main thread.
             }
