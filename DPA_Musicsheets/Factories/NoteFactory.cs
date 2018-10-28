@@ -21,7 +21,7 @@ namespace DPA_Musicsheets.Factories
         {
             MusicNote note = new MusicNote
             {
-                Octave = 0
+                Octave = 4
             };
 
             foreach (char c in LilyNote)

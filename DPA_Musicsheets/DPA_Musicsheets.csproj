@@ -116,7 +116,7 @@
     <Compile Include="IO\FileHandlers\MusicFileHandler.cs" />
     <Compile Include="BaseCommand.cs" />
     <Compile Include="Converters\StaffConverter.cs" />
-    <Compile Include="IO\LilypondFileHandler.cs" />
+    <Compile Include="IO\FileHandlers\LilypondFileHandler.cs" />
     <Compile Include="IO\MusicPlayer.cs" />
     <Compile Include="Events\MusicPlayerStatusChangedEventArgs.cs" />
     <Compile Include="Shortcut\Command\FileCommand\FileCommand.cs" />

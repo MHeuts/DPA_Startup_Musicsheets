@@ -17,7 +17,6 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers
             metaHandlers = new Dictionary<MetaType, IMidiMessageHandler>();
             metaHandlers.Add(MetaType.TimeSignature, new TimeSignatureMessageHandler());
             metaHandlers.Add(MetaType.Tempo, new TempoMessageHandler());
-            metaHandlers.Add(MetaType.EndOfTrack, new EndOfTrackMessageHandler());
 
             // Channel
             channelHandlers = new Dictionary<ChannelCommand, IMidiMessageHandler>();

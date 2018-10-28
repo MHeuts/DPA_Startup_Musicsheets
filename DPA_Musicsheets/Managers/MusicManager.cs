@@ -3,13 +3,15 @@ using DPA_Musicsheets.IO.FileHandlers;
 using DPA_Musicsheets.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DPA_Musicsheets.Managers
 {
     public class MusicManager
     {
         private Staff _staff;
-        private readonly MusicFileHandler _fileHandler;
+        private readonly LinkedList<MusicFileHandler> _musicFileHandlers;
+        private MusicFileHandler _fileHandler;
 
         public event EventHandler StaffChanged;
 
@@ -23,9 +25,10 @@ namespace DPA_Musicsheets.Managers
             }
         }
         
-        public MusicManager(MusicFileHandler fileHandler)
+        public MusicManager(LinkedList<MusicFileHandler> musicFileHandlers)
         {
-            _fileHandler = fileHandler;
+            _musicFileHandlers = musicFileHandlers;
+            _fileHandler = _musicFileHandlers.First();
         }
 
         protected virtual void OnStaffChanged(EventArgs e)

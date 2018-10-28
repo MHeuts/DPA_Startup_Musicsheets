@@ -12,11 +12,11 @@ namespace DPA_Musicsheets.IO
 {
     class LilypondFileHandler : MusicFileHandler
     {
-        public List<string> Extensions { get; private set; }
-
-        public LilypondFileHandler()
+        private LilyPondConverter _converter;
+        public LilypondFileHandler(LilyPondConverter converter)
         {
-            Extensions = new List<string> { "ly" };
+            _converter = converter;
+            Extensions.Add(".ly");
         }
 
         protected override Staff Load(string filename)

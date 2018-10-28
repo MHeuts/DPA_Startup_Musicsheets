@@ -1,4 +1,5 @@
-﻿using DPA_Musicsheets.Converters.Midi;
+﻿using DPA_Musicsheets.Converters.LilyPond;
+using DPA_Musicsheets.Converters.Midi;
 using DPA_Musicsheets.Converters.Midi.MidiEventHandlers;
 using DPA_Musicsheets.Factories;
 using DPA_Musicsheets.IO;
@@ -6,6 +7,7 @@ using DPA_Musicsheets.IO.FileHandlers;
 using DPA_Musicsheets.Managers;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
+using System.Collections.Generic;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -36,9 +38,11 @@ namespace DPA_Musicsheets.ViewModels
             SimpleIoc.Default.Register<MusicPlayer>();
 
             // File handler chain
-            SimpleIoc.Default.Register<MusicFileHandler>(() =>
+            SimpleIoc.Default.Register(() =>
             {
-                var chain = new MidiFileHandler(SimpleIoc.Default.GetInstance<MidiConverter>());
+                var chain = new LinkedList<MusicFileHandler>();
+                chain.AddFirst(new MidiFileHandler(SimpleIoc.Default.GetInstance<MidiConverter>()));
+                chain.AddFirst(new LilypondFileHandler(SimpleIoc.Default.GetInstance<LilyPondConverter>()));
                 return chain;
             });
         }
