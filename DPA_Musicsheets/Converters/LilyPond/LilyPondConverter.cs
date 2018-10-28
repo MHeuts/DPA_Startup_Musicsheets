@@ -95,17 +95,17 @@ namespace DPA_Musicsheets.Converters.LilyPond
 
         public void Visit(Staff staff)
         {
-            LilyText.AppendLine("\\relative c' {");
-            LilyText.AppendLine("\\clef treble");
-            LilyText.AppendLine($"\\time {staff.Rhythm.Item1}/{staff.Rhythm.Item2}");
-            LilyText.AppendLine($"\\tempo 4={staff.Bpm}");
+            LilyText.AppendLine("\\relative c' { ");
+            LilyText.AppendLine("\\clef treble ");
+            LilyText.AppendLine($"\\time {staff.Rhythm.Item1}/{staff.Rhythm.Item2} ");
+            LilyText.AppendLine($"\\tempo 4={staff.Bpm} ");
 
             foreach (var child in staff.Children)
             {
                 child.Accept(this);
             }
 
-            LilyText.Append("}");
+            LilyText.Append("} ");
         }
 
         public void Visit(Bar bar)
@@ -154,7 +154,7 @@ namespace DPA_Musicsheets.Converters.LilyPond
                     default: token.TokenKind = LilypondTokenKind.Unknown; break;
                 }
 
-                if (token.TokenKind == LilypondTokenKind.Unknown && new Regex(@"[~]?[a-g][,'eis]*[0-9]+[.]*").IsMatch(s))
+                if (token.TokenKind == LilypondTokenKind.Unknown && new Regex(@"[~]?[a-g][,'eis]*[0-9]+[.]*", RegexOptions.IgnoreCase).IsMatch(token.Value))
                 {
                     token.TokenKind = LilypondTokenKind.Note;
                 }

@@ -17,7 +17,6 @@ namespace DPA_Musicsheets.IO.FileHandlers
         public LilypondFileHandler(LilyPondConverter converter, MusicFileHandler next = null) : base(next)
         {
             _converter = converter;
-            Extensions.Add(".ly");
         }
 
         public static List<string> GetExtensions()
