@@ -10,8 +10,7 @@ namespace DPA_Musicsheets.Managers
     public class MusicManager
     {
         private Staff _staff;
-        private readonly LinkedList<MusicFileHandler> _musicFileHandlers;
-        private MusicFileHandler _fileHandler;
+        private readonly MusicFileHandler _fileHandler;
 
         public event EventHandler StaffChanged;
 
@@ -25,10 +24,9 @@ namespace DPA_Musicsheets.Managers
             }
         }
         
-        public MusicManager(LinkedList<MusicFileHandler> musicFileHandlers)
+        public MusicManager(MusicFileHandler musicFileHandler)
         {
-            _musicFileHandlers = musicFileHandlers;
-            _fileHandler = _musicFileHandlers.First();
+            _fileHandler = musicFileHandler;
         }
 
         protected virtual void OnStaffChanged(EventArgs e)

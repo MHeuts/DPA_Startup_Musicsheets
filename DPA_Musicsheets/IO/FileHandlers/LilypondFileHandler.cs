@@ -8,11 +8,12 @@ using DPA_Musicsheets.Converters.LilyPond;
 using DPA_Musicsheets.IO.FileHandlers;
 using DPA_Musicsheets.Models;
 
-namespace DPA_Musicsheets.IO
+namespace DPA_Musicsheets.IO.FileHandlers
 {
     class LilypondFileHandler : MusicFileHandler
     {
         private LilyPondConverter _converter;
+
         public LilypondFileHandler(LilyPondConverter converter)
         {
             _converter = converter;
@@ -34,7 +35,18 @@ namespace DPA_Musicsheets.IO
 
         protected override bool Save(string filename, Staff staff)
         {
-            throw new NotImplementedException();
+            var lily = _converter.Convert(staff);
+            if (lily == null) return false;
+
+            try
+            {
+                System.IO.File.WriteAllText(@filename, lily);
+            } catch (Exception e)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

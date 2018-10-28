@@ -13,7 +13,18 @@ namespace DPA_Musicsheets.IO.FileHandlers
         }
 
         public List<string> Extensions { get; protected set; }
-        public MusicFileHandler Next { get; set; }
+        public MusicFileHandler Next { get; protected set; }
+
+        public void AddHandler(MusicFileHandler handler)
+        {
+            if (Next == null)
+            {
+                Next = handler;
+            } else
+            {
+                Next.AddHandler(handler);
+            }
+        }
 
         public Staff LoadFile(string fileName)
         {
@@ -51,7 +62,7 @@ namespace DPA_Musicsheets.IO.FileHandlers
 
         public List<string> GetAllExtensions()
         {
-            var ext = Extensions;
+            var ext = new List<string>(Extensions);
             if (Next != null)
             {
                 ext.AddRange(Next.Extensions);
