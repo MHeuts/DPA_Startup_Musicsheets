@@ -34,7 +34,7 @@ namespace DPA_Musicsheets.IO.FileHandlers
             return MusicFileHandler.BuildSupportedFileTypeString(GetFileType(), GetExtensions());
         }
 
-        public override List<string> Extensions => MidiFileHandler.GetExtensions();
+        public override List<string> Extensions => LilypondFileHandler.GetExtensions();
 
         public override string FileType => GetFileType();
 
