@@ -1,37 +1,42 @@
-﻿using DPA_Musicsheets.Factories;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DPA_Musicsheets.Models
 {
     public class StaffBuilder
     {
-        private NoteFactory _noteFactory;
         private Staff _currentStaff;
         private Staff _rootStaff;
         private Bar _currentBar;
+        private double _barProgression;
 
-        public StaffBuilder(NoteFactory noteFactory)
+        public StaffBuilder()
         {
-            _noteFactory = noteFactory;
             Reset();
         }
 
-        public void AddNote(int key, int duration, int octave, Modifier modifier, bool dot)
+        public void AddNote(Tone tone, int duration, int octave, Modifier modifier, bool dot)
         {
-            var note = _noteFactory.Create(key);
-            note.Octave = octave;
-            note.Duration = duration;
-            note.Modifier = modifier;
-            note.Dot = dot;
+            var note = new MusicNote
+            {
+                Tone = tone,
+                Octave = octave,
+                Duration = duration,
+                Modifier = modifier,
+                Dot = dot
+            };
 
+            AddNote(note);
+        }
+
+        public void AddNote(MusicNote note)
+        {
             _currentBar.MusicNotes.Add(note);
-
-            // Track progression into bar (loop around for progression into next bar)
-            // If note.duration >= bar length remaining, add to bar, make new bar
+            if (_barProgression + note.TotalDuration >= _currentStaff.BarDuration)
+            {
+                CloseCurrentBar();
+            }
+            _barProgression = (_barProgression + note.TotalDuration) % _currentStaff.BarDuration;
         }
 
         public void SetRhythm(Tuple<int, int> rhythm)
@@ -60,7 +65,9 @@ namespace DPA_Musicsheets.Models
 
         public void StartNewStaff()
         {
-            _currentStaff = new Staff() { Bpm = _currentStaff.Bpm, Rhythm = _currentStaff.Rhythm, Parent = _currentStaff };
+            var staff = new Staff() { Bpm = _currentStaff.Bpm, Rhythm = _currentStaff.Rhythm, Parent = _currentStaff };
+            _currentStaff.Children.Add(staff);
+            _currentStaff = staff;
         }
 
         public void CloseStaff()
@@ -83,6 +90,7 @@ namespace DPA_Musicsheets.Models
             _rootStaff = new Staff();
             _currentStaff = _rootStaff;
             _currentBar = new Bar();
+            _barProgression = 0;
         }
 
         public Staff Build()

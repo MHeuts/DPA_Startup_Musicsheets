@@ -52,11 +52,8 @@ namespace DPA_Musicsheets.Converters.Midi
             Sequence = value as Sequence;
             if (Sequence == null || Sequence.Count() < 2) return null;
 
-            Staff = new Staff();
-            Bar = new Bar();
             StartedNoteIsClosed = true;
             PreviousNoteAbsoluteTicks = 0;
-            PercentageOfBarReached = 0;
 
             // Single instrument support only
             var track = Sequence[0];
@@ -70,12 +67,7 @@ namespace DPA_Musicsheets.Converters.Midi
                 handler?.HandleMessage(this, midiMessage);
             }
 
-            while (Staff.Parent != null)
-            {
-                Staff = Staff.Parent;
-            }
-
-            return Staff;
+            return StaffBuilder.Build();
         }
 
         public void Visit(Staff staff)

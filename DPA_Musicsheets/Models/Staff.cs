@@ -15,6 +15,8 @@ namespace DPA_Musicsheets.Models
         public Tuple<int, int> Rhythm { get; set; }
         public int Bpm { get; set; }
 
+        public double BarDuration => (double)Rhythm.Item1 / (double)Rhythm.Item2;
+
         public override void Accept(IStaffElementVisitor visitor)
         {
             visitor.Visit(this);

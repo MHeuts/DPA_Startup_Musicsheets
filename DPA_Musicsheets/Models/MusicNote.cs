@@ -7,5 +7,15 @@
         public Modifier Modifier { get; set; }
         public double Duration { get; set; }
         public bool Dot { get; set; }
+        public double TotalDuration {
+            get
+            {
+                if (Dot)
+                {
+                    return Duration + (Duration/2);
+                }
+                return Duration;
+            }
+        }
     }
 }
