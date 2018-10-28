@@ -22,6 +22,7 @@ namespace DPA_Musicsheets.IO
             set
             {
                 Stop();
+                if (value == null) value = new Sequence();
                 _sequencer.Sequence = value;
             }
         }
