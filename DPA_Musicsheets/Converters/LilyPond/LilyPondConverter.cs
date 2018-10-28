@@ -16,6 +16,8 @@ namespace DPA_Musicsheets.Converters.LilyPond
         private StringBuilder LilyText;
         private Staff song;
         private LilypondToken currentToken;
+        private string bpm;
+        private string[] times;
 
         public string Convert(Staff song)
         {
@@ -57,7 +59,7 @@ namespace DPA_Musicsheets.Converters.LilyPond
         {
             Staff staff = staffBuilder();
             while(currentToken.TokenKind != LilypondTokenKind.SectionEnd)
-            {
+            {                
                 if (currentToken.TokenKind == LilypondTokenKind.Note)
                     staff.Children.Add(barCreator());
 
@@ -66,9 +68,10 @@ namespace DPA_Musicsheets.Converters.LilyPond
                     staff.Children.Add(staffCreator());
                 }
 
-                currentToken = currentToken.NextToken;
-                if (currentToken == null)
+                if (currentToken.NextToken == null)
                     return staff;
+
+                currentToken = currentToken.NextToken;
             }
             return staff;
         }
@@ -117,7 +120,7 @@ namespace DPA_Musicsheets.Converters.LilyPond
                     LilyText.Append("is");
                 else if (note.Modifier == Modifier.Flat)
                     LilyText.Append("es");
-                LilyText.Append($"{note.Duration}");
+                LilyText.Append($"{1/note.Duration}");
                 if (note.Dot)
                     LilyText.Append(".");
                 LilyText.Append(" ");
@@ -182,21 +185,20 @@ namespace DPA_Musicsheets.Converters.LilyPond
                     case LilypondTokenKind.Unknown:
                         break;
                     case LilypondTokenKind.Tempo:
-                        var bpm = currentToken.NextToken.Value.Substring(currentToken.NextToken.Value.LastIndexOf('=') + 1);
-                        staff.Bpm = int.Parse(bpm);
+                        bpm = currentToken.NextToken.Value.Substring(currentToken.NextToken.Value.LastIndexOf('=') + 1);
                         break;
                     case LilypondTokenKind.Time:
-                        var times = currentToken.NextToken.Value.Split('/');
-                        staff.Rhythm = new Tuple<int, int>(int.Parse(times[0]), int.Parse(times[1]));
+                        times = currentToken.NextToken.Value.Split('/');
                         break;
                     default:
                         break;
                 }
-                if (staff.Bpm != null && staff.Rhythm != null)
-                    return staff;
-
                 currentToken = currentToken.NextToken;
             }
+
+            staff.Bpm = int.Parse(bpm);
+            staff.Rhythm = new Tuple<int, int>(int.Parse(times[0]), int.Parse(times[1]));
+
             return staff;
         }
         
