@@ -98,6 +98,7 @@ namespace DPA_Musicsheets.Factories
 
         public Tone getNote(char tone)
         {
+            tone = char.ToLower(tone);
             switch (tone)
             {
                 case 'a':

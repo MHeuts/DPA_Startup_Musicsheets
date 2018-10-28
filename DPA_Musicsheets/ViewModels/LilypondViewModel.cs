@@ -36,7 +36,6 @@ namespace DPA_Musicsheets.ViewModels
             set
             {
                 _song = value;
-                LilypondText = _converter.Convert(_song);
                 RaisePropertyChanged("Song");
             }
         }
@@ -55,10 +54,11 @@ namespace DPA_Musicsheets.ViewModels
         {
             get
             {
-                return _converter.Convert(_song);
+                return _text;
             }
             set
             {
+                _text = value;
                 RaisePropertyChanged(() => LilypondText);
             }
         }
@@ -95,7 +95,7 @@ namespace DPA_Musicsheets.ViewModels
             Song = args?.Staff;
 
             LilypondText = _converter.Convert(_song);
-            _caretaker.Save(_song);
+            _caretaker.Save(_text);
             _textChangedByLoad = false;
         }
 
@@ -157,18 +157,19 @@ namespace DPA_Musicsheets.ViewModels
                 {
                     if ((DateTime.Now - _lastChange).TotalMilliseconds >= MILLISECONDS_BEFORE_CHANGE_HANDLED)
                     {
+                        var failed = false;
                         
                         _waitingForRender = false;
-                        UndoCommand.RaiseCanExecuteChanged();
 
                         Song = _converter.ConvertBack(_text);
-                        _caretaker.Save(_song);
+                        _caretaker.Save(_text);
                         
                         if (Song == null)
                         {
                             MessengerInstance.Send<EditorStatusMessage>(new EditorStatusMessage("Invalid lilypond..."));
                         } else
                         {
+                            _musicManager.Staff = Song;
                             MessengerInstance.Send<EditorStatusMessage>(new EditorStatusMessage(""));
                         }
                     }
@@ -179,17 +180,17 @@ namespace DPA_Musicsheets.ViewModels
         #region Commands for buttons like Undo, Redo and SaveAs
         public RelayCommand UndoCommand => new RelayCommand(() =>
         {
-            _textChangedByCommand = true;
-            Song = _caretaker.Undo(_song);
-            _textChangedByCommand = false;
+            _textChangedByLoad = true;
+            LilypondText = _caretaker.Undo(_text);
+            _textChangedByLoad = false;
             RedoCommand.RaiseCanExecuteChanged();
         }, () => _caretaker.CanUndo());
 
         public RelayCommand RedoCommand => new RelayCommand(() =>
         {
-            _textChangedByCommand = true;
-            Song = _caretaker.Redo(_song);
-            _textChangedByCommand = false;
+            _textChangedByLoad = true;
+            LilypondText = _caretaker.Redo(_text);
+            _textChangedByLoad = false;
             UndoCommand.RaiseCanExecuteChanged();
         }, () => _caretaker.CanRedo());
 

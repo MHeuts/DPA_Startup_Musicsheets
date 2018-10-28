@@ -15,20 +15,20 @@ namespace DPA_Musicsheets.LilyPondEditor.Memento
             _redo = new Stack<Memento>();
         }
 
-        public void Save(Staff lilypond)
+        public void Save(string lilypond)
         {
             _undo.Push(new Memento(lilypond));
             _redo.Clear();
         }
 
-        public Staff Undo(Staff lilypond)
+        public string Undo(string lilypond)
         {
             _redo.Push(new Memento(lilypond));
             _undo.Pop();
             return _undo.Peek().GetLilypond();
         }
 
-        public Staff Redo(Staff lilypond)
+        public string Redo(string lilypond)
         {
             _undo.Push(new Memento(lilypond));
             return _redo.Pop().GetLilypond();

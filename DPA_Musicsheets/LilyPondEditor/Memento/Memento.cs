@@ -4,14 +4,14 @@ namespace DPA_Musicsheets.LilyPondEditor.Memento
 {
     class Memento
     {
-        private Staff _lilypond;
+        private string _lilypond;
 
-        public Memento(Staff lilypond)
+        public Memento(string lilypond)
         {
             _lilypond = lilypond;
         }
 
-        public Staff GetLilypond()
+        public string GetLilypond()
         {
             return _lilypond;
         }
