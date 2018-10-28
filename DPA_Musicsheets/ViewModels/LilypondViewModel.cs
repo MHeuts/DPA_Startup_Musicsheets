@@ -1,4 +1,6 @@
-﻿using DPA_Musicsheets.IO.FileHandlers;
+﻿using DPA_Musicsheets.Converters.LilyPond;
+using DPA_Musicsheets.Events;
+using DPA_Musicsheets.IO.FileHandlers;
 using DPA_Musicsheets.LilyPondEditor.Memento;
 using DPA_Musicsheets.LilyPondEditor.Shortcuts;
 using DPA_Musicsheets.Managers;
@@ -20,11 +22,24 @@ namespace DPA_Musicsheets.ViewModels
     public class LilypondViewModel : ViewModelBase
     {
         private MusicLoader _musicLoader;
+        
         private MainViewModel _mainViewModel { get; set; }
+        private LilyPondConverter _converter;
 
         private Caretaker _caretaker;
         private readonly MusicManager _musicManager;
-        public Staff Staff;
+
+        private Staff _song;
+        public Staff Song
+        {
+            get { return _song; }
+            set
+            {
+                _song = value;
+                LilypondText = _converter.Convert(_song);
+                RaisePropertyChanged("Song");
+            }
+        }
 
         public ShortcutListener ShortcutListener { get; }
         public ILilypondTextBox TextBox { get; set; }
@@ -40,15 +55,10 @@ namespace DPA_Musicsheets.ViewModels
         {
             get
             {
-                return _text;
+                return _converter.Convert(_song);
             }
             set
             {
-                if (!_waitingForRender && !_textChangedByLoad)
-                {
-                    _previousText = _text;
-                }
-                _text = value;
                 RaisePropertyChanged(() => LilypondText);
             }
         }
@@ -60,19 +70,34 @@ namespace DPA_Musicsheets.ViewModels
         private static int MILLISECONDS_BEFORE_CHANGE_HANDLED = 1500;
         private bool _waitingForRender = false;
 
-        public LilypondViewModel(MainViewModel mainViewModel, MusicLoader musicLoader, MusicManager musicManager)
+        public LilypondViewModel(MusicManager musicManager, MainViewModel mainViewModel)
         {
             // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer and viewmodels don't know each other?
             // And viewmodels don't 
             _musicManager = musicManager;
             _caretaker = new Caretaker();
+            _converter = new LilyPondConverter();
+
+            musicManager.StaffChanged += this.OnSongLoaded;
+
             _mainViewModel = mainViewModel;
-            _musicLoader = musicLoader;
-            _musicLoader.LilypondViewModel = this;
+            //_musicLoader.LilypondViewModel = this;
             _text = "Your lilypond text will appear here.";
 
             ShortcutListener = new ShortcutListener();
             SetupShortcuts();
+        }
+
+        private void OnSongLoaded(object sender, EventArgs eventArgs)
+        {
+
+            _textChangedByLoad = true;
+            var args = eventArgs as StaffChangedEventArgs;
+            Song = args?.Staff;
+
+            LilypondText = _converter.Convert(_song);
+            _caretaker.Save(_song);
+            _textChangedByLoad = false;
         }
 
         private void SetupShortcuts()
@@ -107,13 +132,14 @@ namespace DPA_Musicsheets.ViewModels
             ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.L }, SaveAsLilypondCommand);
         }
 
-        public void LilypondTextLoaded(string text)
+        /*public void LilypondTextLoaded(string text)
         {
             _textChangedByLoad = true;
             LilypondText = _previousText = text;
             _caretaker.Save(LilypondText);
             _textChangedByLoad = false;
         }
+        */
 
         /// <summary>
         /// This occurs when the text in the textbox has changed. This can either be by loading or typing.
@@ -125,21 +151,20 @@ namespace DPA_Musicsheets.ViewModels
             {
                 _waitingForRender = true;
                 _lastChange = DateTime.Now;
-
-                if (!_textChangedByCommand)
-                    _caretaker.Save(LilypondText);
-
+               
                 _mainViewModel.CurrentState = "Rendering...";
 
                 Task.Delay(MILLISECONDS_BEFORE_CHANGE_HANDLED).ContinueWith((task) =>
                 {
                     if ((DateTime.Now - _lastChange).TotalMilliseconds >= MILLISECONDS_BEFORE_CHANGE_HANDLED)
                     {
-
+                        
                         _waitingForRender = false;
                         UndoCommand.RaiseCanExecuteChanged();
 
-                        _musicLoader.LoadLilypondIntoWpfStaffsAndMidi(LilypondText);
+                        Song = _converter.ConvertBack(_text);
+                        _caretaker.Save(_song);
+
                         _mainViewModel.CurrentState = "";
                     }
                 }, TaskScheduler.FromCurrentSynchronizationContext()); // Request from main thread.
@@ -150,7 +175,7 @@ namespace DPA_Musicsheets.ViewModels
         public RelayCommand UndoCommand => new RelayCommand(() =>
         {
             _textChangedByCommand = true;
-            LilypondText = _caretaker.Undo(LilypondText);
+            Song = _caretaker.Undo(_song);
             _textChangedByCommand = false;
             RedoCommand.RaiseCanExecuteChanged();
         }, () => _caretaker.CanUndo());
@@ -158,7 +183,7 @@ namespace DPA_Musicsheets.ViewModels
         public RelayCommand RedoCommand => new RelayCommand(() =>
         {
             _textChangedByCommand = true;
-            LilypondText = _caretaker.Redo(LilypondText);
+            Song = _caretaker.Redo(_song);
             _textChangedByCommand = false;
             UndoCommand.RaiseCanExecuteChanged();
         }, () => _caretaker.CanRedo());

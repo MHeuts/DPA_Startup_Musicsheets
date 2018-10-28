@@ -24,7 +24,7 @@ namespace DPA_Musicsheets.Managers
                 OnStaffChanged(new StaffChangedEventArgs() { Staff = value });
             }
         }
-        
+
         public MusicManager(MusicFileHandler musicFileHandler)
         {
             _fileHandler = musicFileHandler;

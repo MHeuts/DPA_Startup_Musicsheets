@@ -1,15 +1,17 @@
-﻿namespace DPA_Musicsheets.LilyPondEditor.Memento
+﻿using DPA_Musicsheets.Models;
+
+namespace DPA_Musicsheets.LilyPondEditor.Memento
 {
     class Memento
     {
-        private string _lilypond;
+        private Staff _lilypond;
 
-        public Memento(string lilypond)
+        public Memento(Staff lilypond)
         {
             _lilypond = lilypond;
         }
 
-        public string GetLilypond()
+        public Staff GetLilypond()
         {
             return _lilypond;
         }
