@@ -1,4 +1,5 @@
-﻿using DPA_Musicsheets.LilyPondEditor.Memento;
+﻿using DPA_Musicsheets.IO.FileHandlers;
+using DPA_Musicsheets.LilyPondEditor.Memento;
 using DPA_Musicsheets.LilyPondEditor.Shortcuts;
 using DPA_Musicsheets.Managers;
 using DPA_Musicsheets.Models;
@@ -103,6 +104,7 @@ namespace DPA_Musicsheets.ViewModels
             ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.Z }, UndoCommand);
             ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.Y }, RedoCommand);
             ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.S }, SaveAsCommand);
+            ShortcutListener.AddShortcut(new Key[] { Key.LeftCtrl, Key.L }, SaveAsLilypondCommand);
         }
 
         public void LilypondTextLoaded(string text)
@@ -163,14 +165,25 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand SaveAsCommand => new RelayCommand(() =>
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = _musicManager.GetSupportedFilesString() };
+            SaveAs(_musicManager.GetSupportedFilesString());
+        });
+
+        public ICommand SaveAsLilypondCommand => new RelayCommand(() =>
+        {
+            SaveAs(LilypondFileHandler.GetSupportedFileTypeString());
+        });
+
+        private void SaveAs(string filter)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = filter };
             if (saveFileDialog.ShowDialog() == true)
             {
                 // TODO: check for success?
                 _musicManager.SaveToFile(saveFileDialog.FileName);
             }
-        });
+        }
+
         #endregion Commands for buttons like Undo, Redo and SaveAs
-        
+
     }
 }

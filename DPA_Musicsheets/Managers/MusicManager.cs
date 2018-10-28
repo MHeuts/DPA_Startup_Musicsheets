@@ -48,20 +48,10 @@ namespace DPA_Musicsheets.Managers
         public string GetSupportedFilesString()
         {
             var builder = new StringBuilder();
-            var supported = _fileHandler.GetSupportedFiles();
+            var supported = _fileHandler.GetSupportedFileTypeStrings();
             foreach (var filetype in supported)
             {
-                builder.Append($"{filetype.Item1} (");
-                foreach (var extension in filetype.Item2)
-                {
-                    builder.Append($"*{extension} ");
-                }
-                builder.Append(")|");
-                foreach (var extension in filetype.Item2)
-                {
-                    builder.Append($"*{extension}");
-                    if (extension != filetype.Item2.Last()) builder.Append(";");
-                }
+                builder.Append(filetype);
                 if (filetype != supported.Last()) builder.Append("|");
             }
 

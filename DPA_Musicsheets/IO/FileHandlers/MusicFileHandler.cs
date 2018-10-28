@@ -2,21 +2,21 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace DPA_Musicsheets.IO.FileHandlers
 {
     public abstract class MusicFileHandler
     {
 
-        public MusicFileHandler(string fileType, MusicFileHandler next = null)
+        public MusicFileHandler(MusicFileHandler next = null)
         {
-            Extensions = new List<string>();
             Next = next;
-            FileType = fileType;
         }
 
-        public List<string> Extensions { get; protected set; }
-        public string FileType { get; protected set; }
+        public abstract List<string> Extensions { get; }
+        public abstract string FileType { get; }
+        public abstract string FileTypeString { get; }
         public MusicFileHandler Next { get; protected set; }
 
         public Staff LoadFile(string fileName)
@@ -52,17 +52,31 @@ namespace DPA_Musicsheets.IO.FileHandlers
         {
             return Extensions.Contains(Path.GetExtension(filename));
         }
-
-        public List<Tuple<string, List<string>>> GetSupportedFiles()
+        
+        public static string BuildSupportedFileTypeString(string fileType, List<string> extensions)
         {
-            var ext = new List<Tuple<string, List<string>>>
+            var builder = new StringBuilder();
+            builder.Append($"{fileType} (");
+            foreach (var extension in extensions)
             {
-                new Tuple<string, List<string>>(FileType, Extensions)
-            };
+                builder.Append($"*{extension} ");
+            }
+            builder.Append(")|");
+            foreach (var extension in extensions)
+            {
+                builder.Append($"*{extension}");
+                if (extension != extensions[extensions.Count - 1]) builder.Append(";");
+            }
+            return builder.ToString();
+        }
+
+        public List<string> GetSupportedFileTypeStrings()
+        {
+            var ext = new List<string> { FileTypeString };
 
             if (Next != null)
             {
-                ext.AddRange(Next.GetSupportedFiles());
+                ext.AddRange(Next.GetSupportedFileTypeStrings());
             }
             return ext;
         }

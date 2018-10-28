@@ -14,11 +14,32 @@ namespace DPA_Musicsheets.IO.FileHandlers
     {
         private LilyPondConverter _converter;
 
-        public LilypondFileHandler(LilyPondConverter converter, MusicFileHandler next = null) : base("LilyPond", next)
+        public LilypondFileHandler(LilyPondConverter converter, MusicFileHandler next = null) : base(next)
         {
             _converter = converter;
             Extensions.Add(".ly");
         }
+
+        public static List<string> GetExtensions()
+        {
+            return new List<string> { ".ly" };
+        }
+
+        public static string GetFileType()
+        {
+            return "LilyPond";
+        }
+
+        public static string GetSupportedFileTypeString()
+        {
+            return MusicFileHandler.BuildSupportedFileTypeString(GetFileType(), GetExtensions());
+        }
+
+        public override List<string> Extensions => MidiFileHandler.GetExtensions();
+
+        public override string FileType => GetFileType();
+
+        public override string FileTypeString => GetSupportedFileTypeString();
 
         protected override Staff Load(string filename)
         {
