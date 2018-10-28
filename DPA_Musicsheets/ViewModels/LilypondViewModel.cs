@@ -1,17 +1,18 @@
-﻿using DPA_Musicsheets.Managers;
+﻿using DPA_Musicsheets.LilyPondEditor.Memento;
+using DPA_Musicsheets.LilyPondEditor.Shortcuts;
+using DPA_Musicsheets.Managers;
+using DPA_Musicsheets.Models;
+using DPA_Musicsheets.Views;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
 using System;
 using System.IO;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using DPA_Musicsheets.LilyPondEditor.Memento;
-using DPA_Musicsheets.Views;
-using DPA_Musicsheets.LilyPondEditor.Shortcuts;
-using DPA_Musicsheets.Models;
 
 namespace DPA_Musicsheets.ViewModels
 {
@@ -21,7 +22,8 @@ namespace DPA_Musicsheets.ViewModels
         private MainViewModel _mainViewModel { get; set; }
 
         private Caretaker _caretaker;
-        public Staff song;
+        private readonly MusicManager _musicManager;
+        public Staff Staff;
 
         public ShortcutListener ShortcutListener { get; }
         public ILilypondTextBox TextBox { get; set; }
@@ -57,10 +59,11 @@ namespace DPA_Musicsheets.ViewModels
         private static int MILLISECONDS_BEFORE_CHANGE_HANDLED = 1500;
         private bool _waitingForRender = false;
 
-        public LilypondViewModel(MainViewModel mainViewModel, MusicLoader musicLoader)
+        public LilypondViewModel(MainViewModel mainViewModel, MusicLoader musicLoader, MusicManager musicManager)
         {
             // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer and viewmodels don't know each other?
             // And viewmodels don't 
+            _musicManager = musicManager;
             _caretaker = new Caretaker();
             _mainViewModel = mainViewModel;
             _musicLoader = musicLoader;
@@ -152,28 +155,19 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand SaveAsCommand => new RelayCommand(() =>
         {
-            // TODO: In the application a lot of classes know which filetypes are supported. Lots and lots of repeated code here...
-            // Can this be done better?
-            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = "Midi|*.mid|Lilypond|*.ly|PDF|*.pdf" };
+            // Get supported extensions
+            var builder = new StringBuilder();
+            foreach (var extension in _musicManager.GetSupportedExtensions())
+            {
+                builder.Append($"*{extension};");
+            }
+            var supported = builder.ToString();
+
+            SaveFileDialog saveFileDialog = new SaveFileDialog() { Filter = $"Supported files | {supported}" };
             if (saveFileDialog.ShowDialog() == true)
             {
-                string extension = Path.GetExtension(saveFileDialog.FileName);
-                if (extension.EndsWith(".mid"))
-                {
-                    _musicLoader.SaveToMidi(saveFileDialog.FileName);
-                }
-                else if (extension.EndsWith(".ly"))
-                {
-                    _musicLoader.SaveToLilypond(saveFileDialog.FileName);
-                }
-                else if (extension.EndsWith(".pdf"))
-                {
-                    _musicLoader.SaveToPDF(saveFileDialog.FileName);
-                }
-                else
-                {
-                    MessageBox.Show($"Extension {extension} is not supported.");
-                }
+                // TODO: check for success?
+                _musicManager.SaveToFile(saveFileDialog.FileName);
             }
         });
         #endregion Commands for buttons like Undo, Redo and SaveAs

@@ -1,8 +1,8 @@
 ﻿using DPA_Musicsheets.Converters.Midi;
+using DPA_Musicsheets.Managers;
 using DPA_Musicsheets.Models;
 using Sanford.Multimedia.Midi;
 using System;
-using System.ComponentModel;
 
 namespace DPA_Musicsheets.IO
 {
@@ -46,7 +46,7 @@ namespace DPA_Musicsheets.IO
             }
         }
 
-        public MusicPlayer(MusicFileManager fileManager, MidiConverter midiConverter)
+        public MusicPlayer(MusicManager fileManager, MidiConverter midiConverter)
         {
             // The OutputDevice is a midi device on the midi channel of your computer.
             // The audio will be streamed towards this output.

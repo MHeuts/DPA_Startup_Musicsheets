@@ -1,4 +1,10 @@
-﻿namespace DPA_Musicsheets.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace DPA_Musicsheets.Domain
 {
     /// <summary>
     /// These enums will be needed when loading an Lilypond file.

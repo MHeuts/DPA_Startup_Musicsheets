@@ -1,10 +1,11 @@
-﻿using DPA_Musicsheets.IO;
-using DPA_Musicsheets.LilyPondEditor.Shortcuts;
+﻿using DPA_Musicsheets.LilyPondEditor.Shortcuts;
+using DPA_Musicsheets.Managers;
 using DPA_Musicsheets.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using Microsoft.Win32;
 using System;
+using System.Text;
 using System.Windows.Input;
 
 namespace DPA_Musicsheets.ViewModels
@@ -41,18 +42,26 @@ namespace DPA_Musicsheets.ViewModels
 
         //private MusicLoader _musicLoader;
         //private MidiFileParser _midiFileParser;
-        private MusicFileManager _fileManager;
+        private MusicManager _musicManager;
 
-        public MainViewModel(MusicFileManager fileManager)
+        public MainViewModel(MusicManager musicManager)
         {
             // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer?
-            _fileManager = fileManager;
+            _musicManager = musicManager;
             FileName = @"Files/Alle-eendjes-zwemmen-in-het-water.mid";
         }
 
         public ICommand OpenFileCommand => new RelayCommand(() =>
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = "Midi or LilyPond files (*.mid *.ly)|*.mid;*.ly" };
+            // Get supported extensions
+            var builder = new StringBuilder();
+            foreach(var extension in _musicManager.GetSupportedExtensions())
+            {
+                builder.Append($"*{extension};");
+            }
+            var supported = builder.ToString();
+
+            OpenFileDialog openFileDialog = new OpenFileDialog() { Filter = $"Supported files | {supported}" };
             if (openFileDialog.ShowDialog() == true)
             {
                 FileName = openFileDialog.FileName;
@@ -61,7 +70,7 @@ namespace DPA_Musicsheets.ViewModels
 
         public ICommand LoadCommand => new RelayCommand(() =>
         {
-            Song = _fileManager.Load(FileName);
+            _musicManager.LoadFromFile(FileName);
         });
 
         #region Focus and key commands, these can be used for implementing hotkeys

@@ -1,4 +1,6 @@
-﻿using DPA_Musicsheets.IO;
+﻿using DPA_Musicsheets.Events;
+using DPA_Musicsheets.IO;
+using DPA_Musicsheets.Managers;
 using DPA_Musicsheets.Models;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
@@ -25,17 +27,17 @@ namespace DPA_Musicsheets.ViewModels
             }
         }
 
-        public MidiPlayerViewModel(MusicPlayer musicPlayer, MusicFileManager fileManager)
+        public MidiPlayerViewModel(MusicPlayer musicPlayer, MusicManager fileManager)
         {
             _musicPlayer = musicPlayer;
-            fileManager.SongLoaded += OnSongLoaded;
+            fileManager.StaffChanged += OnStaffChanged;
             musicPlayer.StatusChanged += OnStatusChanged;
         }
 
-        private void OnSongLoaded(object sender, EventArgs eventArgs)
+        private void OnStaffChanged(object sender, EventArgs eventArgs)
         {
-            var args = eventArgs as SongLoadedEventsArgs;
-            Staff = args?.Song;
+            var args = eventArgs as StaffChangedEventArgs;
+            Staff = args?.Staff;
         }
 
         private void OnStatusChanged(object sender, EventArgs eventArgs)

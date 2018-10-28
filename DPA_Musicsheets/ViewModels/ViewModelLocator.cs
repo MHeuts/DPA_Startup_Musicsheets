@@ -1,9 +1,9 @@
 ﻿using DPA_Musicsheets.Converters.Midi;
 using DPA_Musicsheets.Converters.Midi.MidiEventHandlers;
+using DPA_Musicsheets.Factories;
 using DPA_Musicsheets.IO;
+using DPA_Musicsheets.IO.FileHandlers;
 using DPA_Musicsheets.Managers;
-using DPA_Musicsheets.Models;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Ioc;
 using Microsoft.Practices.ServiceLocation;
 
@@ -18,18 +18,29 @@ namespace DPA_Musicsheets.ViewModels
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
+            // TODO: BANISH
             SimpleIoc.Default.Register<MusicLoader>();
 
+            // VM's
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LilypondViewModel>();
             SimpleIoc.Default.Register<Staffs>();
             SimpleIoc.Default.Register<MidiPlayerViewModel>();
 
-            SimpleIoc.Default.Register<MusicFileManager>();
+            // Domain
+
+            SimpleIoc.Default.Register<MusicManager>();
             SimpleIoc.Default.Register<NoteFactory>();
             SimpleIoc.Default.Register<MidiMessageHandlerFactory>();
             SimpleIoc.Default.Register<MidiConverter>();
             SimpleIoc.Default.Register<MusicPlayer>();
+
+            // File handler chain
+            SimpleIoc.Default.Register<MusicFileHandler>(() =>
+            {
+                var chain = new MidiFileHandler(SimpleIoc.Default.GetInstance<MidiConverter>());
+                return chain;
+            });
         }
 
         public MainViewModel MainViewModel => ServiceLocator.Current.GetInstance<MainViewModel>();

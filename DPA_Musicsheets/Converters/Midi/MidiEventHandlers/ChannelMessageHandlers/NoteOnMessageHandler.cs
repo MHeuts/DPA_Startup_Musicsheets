@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DPA_Musicsheets.Models;
+﻿using DPA_Musicsheets.Models;
 using Sanford.Multimedia.Midi;
 
 namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.ChannelMessageHandlers
@@ -44,8 +39,10 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.ChannelMessageHandle
             else
             {
                 // TODO: Rest length?
-                var note = context.NoteFactory.CreateRest();
-                context.Bar.MusicNotes.Add(note);
+                context.CurrentNote = context.NoteFactory.CreateRest();
+                context.StartedNoteIsClosed = false;
+                //context.Bar
+                //context.Bar.MusicNotes.Add(note);
             }
         }
 
@@ -77,5 +74,5 @@ namespace DPA_Musicsheets.Converters.Midi.MidiEventHandlers.ChannelMessageHandle
         }
     }
 
-    
+
 }

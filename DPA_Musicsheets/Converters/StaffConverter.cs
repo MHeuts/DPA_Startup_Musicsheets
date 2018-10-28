@@ -1,13 +1,10 @@
-﻿using System;
+﻿using DPA_Musicsheets.Models;
+using PSAMControlLibrary;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
-using DPA_Musicsheets.Models;
-using PSAMControlLibrary;
 
 namespace DPA_Musicsheets.Converters
 {
@@ -55,9 +52,13 @@ namespace DPA_Musicsheets.Converters
                     _symbols.Add(new Rest((MusicalSymbolDuration)musicNote.Duration));
                     continue;
                 }
-                musicNote.Duration = 1 / musicNote.Duration;
-                var note = new Note(musicNote.Tone.ToString().ToUpper(), (int)musicNote.Modifier, musicNote.Octave, (MusicalSymbolDuration)musicNote.Duration, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single });
 
+                var duration = 1 / musicNote.Duration;
+                var note = new Note(musicNote.Tone.ToString().ToUpper(), (int)musicNote.Modifier, musicNote.Octave, (MusicalSymbolDuration)duration, NoteStemDirection.Up, NoteTieType.None, new List<NoteBeamType>() { NoteBeamType.Single });
+                if (musicNote.Dot)
+                {
+                    note.NumberOfDots = 1;
+                }
                 _symbols.Add(note);
             }
             _symbols.Add(new Barline());
