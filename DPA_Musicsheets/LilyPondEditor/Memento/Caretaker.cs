@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DPA_Musicsheets.Models;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DPA_Musicsheets.LilyPondEditor.Memento
@@ -14,20 +15,20 @@ namespace DPA_Musicsheets.LilyPondEditor.Memento
             _redo = new Stack<Memento>();
         }
 
-        public void Save(string lilypond)
+        public void Save(Staff lilypond)
         {
             _undo.Push(new Memento(lilypond));
             _redo.Clear();
         }
 
-        public string Undo(string lilypond)
+        public Staff Undo(Staff lilypond)
         {
             _redo.Push(new Memento(lilypond));
             _undo.Pop();
             return _undo.Peek().GetLilypond();
         }
 
-        public string Redo(string lilypond)
+        public Staff Redo(Staff lilypond)
         {
             _undo.Push(new Memento(lilypond));
             return _redo.Pop().GetLilypond();

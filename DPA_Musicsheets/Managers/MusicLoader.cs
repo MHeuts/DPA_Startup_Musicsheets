@@ -53,7 +53,7 @@ namespace DPA_Musicsheets.Managers
                 }
                 
                 this.LilypondText = sb.ToString();
-                this.LilypondViewModel.LilypondTextLoaded(this.LilypondText);
+                //this.LilypondViewModel.LilypondTextLoaded(this.LilypondText);
             }
             else
             {
