@@ -1,6 +1,9 @@
-﻿using DPA_Musicsheets.Models;
+﻿using DPA_Musicsheets.Factories;
+using DPA_Musicsheets.Models;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;

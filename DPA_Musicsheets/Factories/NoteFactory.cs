@@ -1,4 +1,5 @@
 ﻿using DPA_Musicsheets.Models;
+using System.Text.RegularExpressions;
 
 namespace DPA_Musicsheets.Factories
 {
@@ -16,7 +17,32 @@ namespace DPA_Musicsheets.Factories
             return note;
         }
 
-        public  MusicNote CreateRest()
+        public MusicNote Create(string LilyNote)
+        {
+            MusicNote note = new MusicNote
+            {
+                Octave = 0
+            };
+
+            foreach (char c in LilyNote)
+            {
+                if (c == '\'')
+                    note.Octave++;
+                else if (c == ',')
+                    note.Octave--;
+            }
+
+            note.Tone = getNote(LilyNote[0]);
+            note.Modifier = GetModifier(LilyNote);
+            note.Duration = GetDuration(LilyNote);
+            if (LilyNote[LilyNote.Length - 1] == '.')
+                note.Dot = true;
+
+            return note;
+        }
+
+
+        public MusicNote CreateRest()
         {
             MusicNote note = new MusicNote
             {
@@ -62,5 +88,45 @@ namespace DPA_Musicsheets.Factories
             }
             return Tone.Silent;
         }
+
+        private double GetDuration(string lilyNote)
+        {
+            var number = Regex.Match(lilyNote, @"\d+").Value;
+
+            return 1 / double.Parse(number);
+        }
+
+        public Tone getNote(char tone)
+        {
+            switch (tone)
+            {
+                case 'a':
+                    return Tone.A;
+                case 'b':
+                    return Tone.B;
+                case 'c':
+                    return Tone.C;
+                case 'd':
+                    return Tone.D;
+                case 'e':
+                    return Tone.E;
+                case 'f':
+                    return Tone.F;
+                case 'g':
+                    return Tone.G;
+            }
+            return Tone.Silent;
+        }
+
+        public Modifier GetModifier(string modifier)
+        {
+            if (modifier.Contains("fi"))
+                return Modifier.Flat;
+            else if (modifier.Contains("gi"))
+                return Modifier.Sharp;
+
+            return Modifier.None;
+        }
+
     }
 }
