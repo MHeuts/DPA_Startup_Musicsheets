@@ -19,9 +19,6 @@ namespace DPA_Musicsheets.ViewModels
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
 
-            // TODO: BANISH
-            SimpleIoc.Default.Register<MusicLoader>();
-
             // VM's
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LilypondViewModel>();

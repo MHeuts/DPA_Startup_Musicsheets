@@ -42,7 +42,6 @@ namespace DPA_Musicsheets.IO.FileHandlers
 
         protected override Staff Load(string filename)
         {
-            var converter = new LilyPondConverter();
             StringBuilder sb = new StringBuilder();
 
             foreach (var line in File.ReadAllLines(filename))
@@ -50,7 +49,7 @@ namespace DPA_Musicsheets.IO.FileHandlers
                 sb.AppendLine(line);
             }
 
-            return converter.ConvertBack(sb.ToString());
+            return _converter.ConvertBack(sb.ToString());
         }
 
         protected override bool Save(string filename, Staff staff)

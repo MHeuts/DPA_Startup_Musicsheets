@@ -14,10 +14,14 @@ namespace DPA_Musicsheets.Converters.LilyPond
     public class LilyPondConverter : IValueConverter, IStaffElementVisitor
     {
         private StringBuilder LilyText;
-        private Staff song;
-        private LilypondToken currentToken;
-        private string bpm;
-        private string[] times;
+        private NoteFactory _noteFactory;
+        private StaffBuilder _staffBuilder;
+
+        public LilyPondConverter(NoteFactory noteFactory)
+        {
+            _staffBuilder = new StaffBuilder();
+            _noteFactory = noteFactory;
+        }
 
         public string Convert(Staff song)
         {
@@ -48,50 +52,31 @@ namespace DPA_Musicsheets.Converters.LilyPond
 
             LinkedList<LilypondToken> lilypondTokens = GetTokensFromLilypond(lilyText);
 
-            currentToken = lilypondTokens.First();
-            song = staffCreator();
-            
-            return song;
-            
-        }
+            var currentToken = lilypondTokens.First();
 
-        private Staff staffCreator()
-        {
-            Staff staff = staffBuilder();
-            while(currentToken.TokenKind != LilypondTokenKind.SectionEnd)
-            {                
-                if (currentToken.TokenKind == LilypondTokenKind.Note)
-                    staff.Children.Add(barCreator());
-
-                if(currentToken.TokenKind == LilypondTokenKind.SectionStart)
-                {
-                    staff.Children.Add(staffCreator());
-                }
-
-                if (currentToken.NextToken == null)
-                    return staff;
-
-                currentToken = currentToken.NextToken;
-            }
-            return staff;
-        }
-
-        private Bar barCreator()
-        {
-            NoteFactory factory = new NoteFactory();
-            Bar bar = new Bar();
-            while(currentToken.TokenKind == LilypondTokenKind.Note)
+            while (currentToken != null)
             {
-                bar.MusicNotes.Add(factory.Create(currentToken.Value));
-
+                switch (currentToken.TokenKind)
+                {
+                    case LilypondTokenKind.Note:
+                        _staffBuilder.AddNote(_noteFactory.Create(currentToken.Value));
+                        break;
+                    case LilypondTokenKind.Tempo:
+                        var bpm = currentToken.NextToken.Value.Substring(currentToken.NextToken.Value.LastIndexOf('=') + 1);
+                        _staffBuilder.SetTempo(int.Parse(bpm));
+                        break;
+                    case LilypondTokenKind.Time:
+                        var times = currentToken.NextToken.Value.Split('/');
+                        _staffBuilder.SetRhythm(new Tuple<int, int>(int.Parse(times[0]), int.Parse(times[1])));
+                        break;
+                    default:
+                        break;
+                }
                 currentToken = currentToken.NextToken;
-                
             }
 
-            return bar;
+            return _staffBuilder.Build();
         }
-
-        
 
         public void Visit(Staff staff)
         {
@@ -177,52 +162,6 @@ namespace DPA_Musicsheets.Converters.LilyPond
             }
 
             return tokens;
-        }
-
-        private Staff staffBuilder()
-        {
-            Staff staff = new Staff();
-            while (currentToken.TokenKind != LilypondTokenKind.Note)
-            {
-                switch (currentToken.TokenKind)
-                {
-                    case LilypondTokenKind.Unknown:
-                        break;
-                    case LilypondTokenKind.Tempo:
-                        bpm = currentToken.NextToken.Value.Substring(currentToken.NextToken.Value.LastIndexOf('=') + 1);
-                        break;
-                    case LilypondTokenKind.Time:
-                        times = currentToken.NextToken.Value.Split('/');
-                        break;
-                    default:
-                        break;
-                }
-                currentToken = currentToken.NextToken;
-            }
-
-            staff.Bpm = int.Parse(bpm);
-            staff.Rhythm = new Tuple<int, int>(int.Parse(times[0]), int.Parse(times[1]));
-
-            return staff;
-        }
-        
-        private Bar getBarFromLine(string line)
-        {
-            NoteFactory factory = new NoteFactory();
-            Bar bar = new Bar();
-            foreach (string s in line.Split(' ').Where(item => item.Length > 0))
-            {
-                bar.MusicNotes.Add(factory.Create(line));
-            }
-            return bar;
-        }
-
-        private static List<Bar> getBarListFromTokens(LinkedList<LilypondToken> tokens)
-        {
-            List<Bar> symbols = new List<Bar>();
-
-
-            return symbols;
         }
     }
 }

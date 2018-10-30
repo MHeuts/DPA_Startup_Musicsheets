@@ -11,10 +11,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using Microsoft.Win32;
 using System;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -65,18 +62,17 @@ namespace DPA_Musicsheets.ViewModels
 
         private bool _textChangedByLoad = false;
         private bool _textChangedByCommand = false;
-
+        private bool _waitingForRender;
         private DateTime _lastChange;
         private static int MILLISECONDS_BEFORE_CHANGE_HANDLED = 1500;
-        private bool _waitingForRender = false;
 
-        public LilypondViewModel(MusicManager musicManager)
+        public LilypondViewModel(MusicManager musicManager, LilyPondConverter lilyPondConverter)
         {
             // TODO: Can we use some sort of eventing system so the managers layer doesn't have to know the viewmodel layer and viewmodels don't know each other?
             // And viewmodels don't 
             _musicManager = musicManager;
             _caretaker = new Caretaker();
-            _converter = new LilyPondConverter();
+            _converter = lilyPondConverter;
 
             musicManager.StaffChanged += this.OnSongLoaded;
 
